@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: cf-archivist
+  cloud:
+    discovery:
+      enabled: false
+      client:
+        health-indicator:
+          enabled: false
+        composite-indicator:
+          enabled: false
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+    healthcheck:
+      enabled: false
+
+ribbon:
+  eureka:
+    enabled: false
