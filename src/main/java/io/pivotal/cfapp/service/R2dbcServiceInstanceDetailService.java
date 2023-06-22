@@ -6,12 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.pivotal.cfapp.domain.ServiceInstanceDetail;
-import io.pivotal.cfapp.domain.ServiceInstancePolicy;
 import io.pivotal.cfapp.repository.R2dbcServiceInstanceDetailRepository;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
 
 @Slf4j
 @Service
@@ -37,12 +35,6 @@ public class R2dbcServiceInstanceDetailService implements ServiceInstanceDetailS
     @Override
     public Flux<ServiceInstanceDetail> findByDateRange(LocalDate start, LocalDate end) {
         return repo.findByDateRange(start, end);
-    }
-
-    @Override
-    public Flux<Tuple2<ServiceInstanceDetail, ServiceInstancePolicy>> findByServiceInstancePolicy(
-            ServiceInstancePolicy policy) {
-        return repo.findByServiceInstancePolicy(policy);
     }
 
     @Override

@@ -1,3 +1,8 @@
+cf:
+  sslValidationSkipped: false
+  connectionPoolSize: 250
+  connectionTimeout: PT10M
+
 spring:
   application:
     name: cf-archivist
@@ -15,6 +20,14 @@ eureka:
     serviceUrl:
       defaultZone: ${vcap.services.hooverRegistry.credentials.uri:http://localhost:8761}/eureka/
 
+# Set schedule for this task to adhere to
+# @see https://crontab.guru for help, first parameter is seconds
+cron:
+  # each :30 on the hour
+  collection: "0 30 * * * *"
+  # at 5:30am on Mondays weekly
+  execution: "0 30 5 * * MON"
+
 management:
   endpoints:
     web:
@@ -26,10 +39,6 @@ management:
   info:
     git:
       mode: full
-
-cron:
-  # each :30 on the hour
-  collection: "0 30 * * * *"
 
 ---
 spring:

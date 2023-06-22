@@ -30,9 +30,9 @@ public class MainLayout extends AppLayout {
 
     public MainLayout() {
     	Tab homeTab = createTab(VaadinIcon.HOME.create(), "Home", HomeView.class);
-    	
+
     	Accordion accordion = new Accordion();
-    	
+
     	Tabs accountingTabs = createTabs();
     	Tab aurTab = createTab(VaadinIcon.TABLE.create(),"Application", AppUsageReportView.class);
     	Tab surTab = createTab(VaadinIcon.TABLE.create(), "Service", ServiceUsageReportView.class);
@@ -40,7 +40,7 @@ public class MainLayout extends AppLayout {
     	Tab turTab = createTab(VaadinIcon.TABLE.create(), "Task", TaskUsageReportView.class);
     	accountingTabs.add(aurTab, surTab, spurTab, turTab);
     	accordion.add("Accounting", accountingTabs).addThemeVariants(DetailsVariant.REVERSE);
-    	
+
     	Tabs snapshotDetailTabs = createTabs();
     	Tab sadTab = createTab(VaadinIcon.TABLE.create(), "Application", SnapshotApplicationDetailView.class);
     	Tab sidTab = createTab(VaadinIcon.TABLE.create(), "Service Instance", SnapshotServiceInstanceDetailView.class);
@@ -54,11 +54,11 @@ public class MainLayout extends AppLayout {
     	Tab sssiTab = createTab(VaadinIcon.DASHBOARD.create(),"Service Instance", SnapshotServiceInstanceSummaryView.class);
     	snapshotSummaryTabs.add(ssdTab, ssaTab, sssiTab);
     	accordion.add("Snapshot Summary", snapshotSummaryTabs).addThemeVariants(DetailsVariant.REVERSE);
-    	
+
     	addToNavbar(true, homeTab, new DrawerToggle());
     	addToDrawer(accordion);
     }
-    
+
     private Tabs createTabs() {
     	Tabs menu = new Tabs();
     	menu.setWidthFull();
@@ -66,12 +66,12 @@ public class MainLayout extends AppLayout {
     	menu.setFlexGrowForEnclosedTabs(1);
     	return menu;
     }
-    
+
     private Tab createTab(Icon icon, String label, Class<? extends Component> layout) {
     	RouterLink link = new RouterLink(label, layout);
     	Tab tab = new Tab();
     	tab.add(icon, link);
     	return tab;
     }
- 
+
 }

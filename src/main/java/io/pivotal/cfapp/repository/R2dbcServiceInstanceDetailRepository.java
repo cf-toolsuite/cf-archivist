@@ -14,7 +14,6 @@ import org.springframework.data.relational.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import io.pivotal.cfapp.domain.ServiceInstanceDetail;
-import io.pivotal.cfapp.domain.ServiceInstancePolicy;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
@@ -56,38 +55,9 @@ public class R2dbcServiceInstanceDetailRepository {
                 .all();
     }
 
-    public Flux<Tuple2<ServiceInstanceDetail, ServiceInstancePolicy>> findByServiceInstancePolicy(ServiceInstancePolicy policy) {
-        LocalDateTime fromDateTime = policy.getOption("from-datetime", LocalDateTime.class);
-        String fromDuration = policy.getOption("from-duration", String.class);
-        LocalDateTime temporal = null;
-        Criteria criteria = null;
-        if (fromDateTime != null) {
-            temporal = fromDateTime;
-        }
-        if (fromDuration != null) {
-            temporal = LocalDateTime.now().minus(Duration.parse(fromDuration));
-        }
-        if (temporal != null) {
-            criteria = Criteria.where("bound_applications").isNull().and("last_updated").lessThanOrEquals(temporal);
-        } else {
-            criteria = Criteria.where("bound_applications").isNull();
-        }
-        return
-                client
-                .select(ServiceInstanceDetail.class)
-                .matching(Query.query(criteria).sort(Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("service_name"))))
-                .all()
-                .map(r -> toTuple(r, policy));
-    }
-
     public Mono<ServiceInstanceDetail> save(ServiceInstanceDetail entity) {
         return
                 client
                 .insert(entity);
     }
-
-    private Tuple2<ServiceInstanceDetail, ServiceInstancePolicy> toTuple(ServiceInstanceDetail detail, ServiceInstancePolicy policy) {
-        return Tuples.of(detail, policy);
-    }
-
 }

@@ -31,11 +31,6 @@ public class EmailNotificationEvent extends ApplicationEvent {
         return this;
     }
 
-    public EmailNotificationEvent domain(String domain) {
-        this.domain = domain;
-        return this;
-    }
-
     public EmailNotificationEvent from(String from) {
         this.from = from;
         return this;

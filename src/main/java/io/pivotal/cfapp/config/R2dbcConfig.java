@@ -26,11 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 public class R2dbcConfig extends AbstractR2dbcConfiguration {
 
     private static final List<String> SUPPORTED_SCHEMES = Arrays.asList(new String[] { "mysql", "postgresql"});
-    private static final String VCAP_SERVICE = "cf-butler-backend";
+    private static final String VCAP_SERVICE = "cf-archivist-backend";
 
     private Environment environment;
     private R2dbcProperties r2dbcProperties;
-    private PasSettings settings;
 
     @Autowired
     public void setEnvironment(Environment environment) {
@@ -40,11 +39,6 @@ public class R2dbcConfig extends AbstractR2dbcConfiguration {
     @Autowired
     public void setR2dbcProperties(R2dbcProperties r2dbcProperties) {
         this.r2dbcProperties = r2dbcProperties;
-    }
-
-    @Autowired
-    public void setSettings(PasSettings settings) {
-        this.settings = settings;
     }
 
     @Bean
@@ -104,9 +98,7 @@ public class R2dbcConfig extends AbstractR2dbcConfiguration {
                 builder.append(uri.getPath());
                 r2dbcProperties.setUrl(builder.toString());
                 if (scheme.startsWith("mysql")) {
-                    if (settings.isSslValidationSkipped()) {
-                        r2dbcProperties.getProperties().put("sslMode", "disabled");
-                    }
+                    r2dbcProperties.getProperties().put("sslMode", "disabled");
                 }
                 return r2dbcProperties;
             } else {

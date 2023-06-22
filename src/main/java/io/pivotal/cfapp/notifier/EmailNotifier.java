@@ -62,8 +62,8 @@ public abstract class EmailNotifier implements ApplicationListener<EmailNotifica
         List<String> recipients = event.getRecipients();
         String from = event.getFrom();
         String footer =
-                String.format("This email was sent from %s on %s",
-                        event.getDomain(), DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now()));
+                String.format("This email was sent on %s",
+                        DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now()));
         String subject = event.getSubject();
         final String body = buildBody(template, event.getBody(), subject, footer);
         log.trace("About to send email using ||> From: {}, To: {}, Subject: {}, Body: {}", from, recipients.toString(), subject, body);

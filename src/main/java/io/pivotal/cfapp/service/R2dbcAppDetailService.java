@@ -7,12 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.pivotal.cfapp.domain.AppDetail;
-import io.pivotal.cfapp.domain.ApplicationPolicy;
 import io.pivotal.cfapp.repository.R2dbcAppDetailRepository;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
 
 @Slf4j
 @Service
@@ -41,10 +39,6 @@ public class R2dbcAppDetailService implements AppDetailService {
         return repo.findByAppId(appId);
     }
 
-    @Override
-    public Flux<Tuple2<AppDetail, ApplicationPolicy>> findByApplicationPolicy(ApplicationPolicy policy, boolean mayHaveServiceBindings) {
-        return repo.findByApplicationPolicy(policy, mayHaveServiceBindings);
-    }
 
     @Override
     public Flux<AppDetail> findByDateRange(LocalDate start, LocalDate end) {

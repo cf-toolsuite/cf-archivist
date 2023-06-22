@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.pivotal.cfapp.config.GitSettings;
-import io.pivotal.cfapp.domain.ApplicationOperation;
 import io.pivotal.cfapp.domain.Policies;
-import io.pivotal.cfapp.domain.ServiceInstanceOperation;
 import io.pivotal.cfapp.repository.R2dbcPoliciesRepository;
 import reactor.core.publisher.Mono;
 
@@ -33,51 +31,6 @@ public class R2dbcPoliciesService implements PoliciesService {
 
     @Override
     @Transactional
-    public Mono<Void> deleteApplicationPolicyById(String id) {
-        if (settings.isVersionManaged()) {
-            throw new UnsupportedOperationException(UNSUPPORTED_OP_MESSAGE);
-        }
-        return repo.deleteApplicationPolicyById(id);
-    }
-
-    @Override
-    @Transactional
-    public Mono<Void> deleteEndpointPolicyById(String id) {
-        if (settings.isVersionManaged()) {
-            throw new UnsupportedOperationException(UNSUPPORTED_OP_MESSAGE);
-        }
-        return repo.deleteEndpointPolicyById(id);
-    }
-
-    @Override
-    @Transactional
-    public Mono<Void> deleteHygienePolicyById(String id) {
-        if (settings.isVersionManaged()) {
-            throw new UnsupportedOperationException(UNSUPPORTED_OP_MESSAGE);
-        }
-        return repo.deleteHygienePolicyById(id);
-    }
-
-    @Override
-    @Transactional
-    public Mono<Void> deleteResourceNotificationPolicyById(String id) {
-        if (settings.isVersionManaged()) {
-            throw new UnsupportedOperationException(UNSUPPORTED_OP_MESSAGE);
-        }
-        return repo.deleteResourceNotificationPolicyById(id);
-    }
-
-    @Override
-    @Transactional
-    public Mono<Void> deleteLegacyPolicyById(String id) {
-        if (settings.isVersionManaged()) {
-            throw new UnsupportedOperationException(UNSUPPORTED_OP_MESSAGE);
-        }
-        return repo.deleteLegacyPolicyById(id);
-    }
-
-    @Override
-    @Transactional
     public Mono<Void> deleteQueryPolicyById(String id) {
         if (settings.isVersionManaged()) {
             throw new UnsupportedOperationException(UNSUPPORTED_OP_MESSAGE);
@@ -86,37 +39,8 @@ public class R2dbcPoliciesService implements PoliciesService {
     }
 
     @Override
-    @Transactional
-    public Mono<Void> deleteServiceInstancePolicyById(String id) {
-        if (settings.isVersionManaged()) {
-            throw new UnsupportedOperationException(UNSUPPORTED_OP_MESSAGE);
-        }
-        return repo.deleteServiceInstancePolicyById(id);
-    }
-
-    @Override
     public Mono<Policies> findAll() {
         return repo.findAll();
-    }
-
-    @Override
-    public Mono<Policies> findAllEndpointPolicies() {
-        return repo.findAllEndpointPolicies();
-    }
-
-    @Override
-    public Mono<Policies> findAllHygienePolicies() {
-        return repo.findAllHygienePolicies();
-    }
-
-    @Override
-    public Mono<Policies> findAllResourceNotificationPolicies() {
-        return repo.findAllResourceNotificationPolicies();
-    }
-
-    @Override
-    public Mono<Policies> findAllLegacyPolicies() {
-        return repo.findAllLegacyPolicies();
     }
 
     @Override
@@ -125,48 +49,8 @@ public class R2dbcPoliciesService implements PoliciesService {
     }
 
     @Override
-    public Mono<Policies> findApplicationPolicyById(String id) {
-        return repo.findApplicationPolicyById(id);
-    }
-
-    @Override
-    public Mono<Policies> findByApplicationOperation(ApplicationOperation operation) {
-        return repo.findByApplicationOperation(operation);
-    }
-
-    @Override
-    public Mono<Policies> findByServiceInstanceOperation(ServiceInstanceOperation operation) {
-        return repo.findByServiceInstanceOperation(operation);
-    }
-
-    @Override
-    public Mono<Policies> findEndpointPolicyById(String id) {
-        return repo.findEndpointPolicyById(id);
-    }
-
-    @Override
-    public Mono<Policies> findHygienePolicyById(String id) {
-        return repo.findHygienePolicyById(id);
-    }
-
-    @Override
-    public Mono<Policies> findResourceNotificationPolicyById(String id) {
-        return repo.findResourceNotificationPolicyById(id);
-    }
-
-    @Override
-    public Mono<Policies> findLegacyPolicyById(String id) {
-        return repo.findLegacyPolicyById(id);
-    }
-
-    @Override
     public Mono<Policies> findQueryPolicyById(String id) {
         return repo.findQueryPolicyById(id);
-    }
-
-    @Override
-    public Mono<Policies> findServiceInstancePolicyById(String id) {
-        return repo.findServiceInstancePolicyById(id);
     }
 
     @Override

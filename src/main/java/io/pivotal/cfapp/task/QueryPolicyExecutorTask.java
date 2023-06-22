@@ -11,7 +11,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import io.pivotal.cfapp.config.PasSettings;
 import io.pivotal.cfapp.domain.Defaults;
 import io.pivotal.cfapp.domain.EmailAttachment;
 import io.pivotal.cfapp.domain.Query;
