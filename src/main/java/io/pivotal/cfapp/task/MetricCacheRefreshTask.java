@@ -54,21 +54,6 @@ public class MetricCacheRefreshTask implements ApplicationRunner {
                     log.trace(mapWithException("SnapshotDetail", r));
                     cache.setSnapshotDetail(r);
                 })
-            .then(archivistClient.getApplicationReport())
-                .doOnNext(r -> {
-                    log.trace(mapWithException("AppUsageReport", r));
-                    cache.setAppUsage(r);
-                })
-            .then(archivistClient.getServiceReport())
-                .doOnNext(r -> {
-                    log.trace(mapWithException("ServiceUsageReport", r));
-                    cache.setServiceUsage(r);
-                })
-            .then(archivistClient.getTaskReport())
-                .doOnNext(r -> {
-                    log.trace(mapWithException("TaskUsageReport", r));
-                    cache.setTaskUsage(r);
-                })
             .then(archivistClient.getDemographics())
                 .doOnNext(r -> {
                     log.trace(mapWithException("Demographics", r));

@@ -78,11 +78,6 @@ public class R2dbcSpaceUsersService implements SpaceUsersService {
     }
 
     @Override
-    public Mono<SpaceUsers> findByOrganizationAndSpace(String organization, String space) {
-        return repo.findByOrganizationAndSpace(organization, space);
-    }
-
-    @Override
     public Flux<String> obtainAccountNames() {
         return Flux.concat(obtainUserAccountNames(), obtainServiceAccountNames());
     }

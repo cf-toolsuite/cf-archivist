@@ -1,7 +1,5 @@
 package io.pivotal.cfapp.client;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -10,9 +8,6 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.pivotal.cfapp.domain.Demographics;
 import io.pivotal.cfapp.domain.SnapshotDetail;
 import io.pivotal.cfapp.domain.SnapshotSummary;
-import io.pivotal.cfapp.domain.accounting.application.AppUsageReport;
-import io.pivotal.cfapp.domain.accounting.service.ServiceUsageReport;
-import io.pivotal.cfapp.domain.accounting.task.TaskUsageReport;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -69,45 +64,4 @@ public class ArchivistClient {
         return Mono.just(Demographics.builder().build());
     }
 
-    @CircuitBreaker(name = "hooverClient.taskUsageReport", fallbackMethod = "fallbackForTaskReport")
-    public Mono<TaskUsageReport> getTaskReport() {
-        return client
-                .get()
-                    .uri("/accounting/tasks")
-                    .retrieve()
-                    .bodyToMono(TaskUsageReport.class);
-    }
-
-    protected Mono<TaskUsageReport> fallbackForTaskReport(Exception e) {
-        log.warn("Could not obtain results from call to /accounting/tasks", e);
-        return Mono.just(TaskUsageReport.aggregate(Collections.emptyList()));
-    }
-
-    @CircuitBreaker(name = "hooverClient.appUsageReport", fallbackMethod = "fallbackForApplicationReport")
-    public Mono<AppUsageReport> getApplicationReport() {
-        return client
-                .get()
-                    .uri("/accounting/applications")
-                    .retrieve()
-                    .bodyToMono(AppUsageReport.class);
-    }
-
-    protected Mono<AppUsageReport> fallbackForApplicationReport(Exception e) {
-        log.warn("Could not obtain results from call to /accounting/applications", e);
-        return Mono.just(AppUsageReport.aggregate(Collections.emptyList()));
-    }
-
-    @CircuitBreaker(name = "hooverClient.serviceUsageReport", fallbackMethod = "fallbackForServiceReport")
-    public Mono<ServiceUsageReport> getServiceReport() {
-        return client
-                .get()
-                    .uri("/accounting/services")
-                    .retrieve()
-                    .bodyToMono(ServiceUsageReport.class);
-    }
-
-    protected Mono<ServiceUsageReport> fallbackForServiceReport(Exception e) {
-        log.warn("Could not obtain results from call to /accounting/services", e);
-        return Mono.just(ServiceUsageReport.aggregate(Collections.emptyList()));
-    }
 }

@@ -33,16 +33,6 @@ public class R2dbcAppRelationshipService implements AppRelationshipService {
     }
 
     @Override
-    public Flux<AppRelationship> findByApplicationId(String applicationId) {
-        return repo.findByApplicationId(applicationId);
-    }
-
-    @Override
-    public Flux<AppRelationship> findByServiceInstanceId(String serviceInstanceId) {
-        return repo.findByServiceInstanceId(serviceInstanceId);
-    }
-
-    @Override
     @Transactional
     public Mono<AppRelationship> save(AppRelationship entity) {
         return repo

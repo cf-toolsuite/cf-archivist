@@ -17,8 +17,6 @@ public interface SpaceUsersService {
 
     Flux<SpaceUsers> findByAccountName(String name);
 
-    Mono<SpaceUsers> findByOrganizationAndSpace(String organization, String space);
-
     Flux<String> obtainAccountNames();
 
     Flux<String> obtainServiceAccountNames();

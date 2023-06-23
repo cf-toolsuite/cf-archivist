@@ -35,17 +35,6 @@ public class R2dbcAppDetailService implements AppDetailService {
     }
 
     @Override
-    public Mono<AppDetail> findByAppId(String appId) {
-        return repo.findByAppId(appId);
-    }
-
-
-    @Override
-    public Flux<AppDetail> findByDateRange(LocalDate start, LocalDate end) {
-        return repo.findByDateRange(start, end);
-    }
-
-    @Override
     @Transactional
     public Mono<AppDetail> save(AppDetail entity) {
         return repo

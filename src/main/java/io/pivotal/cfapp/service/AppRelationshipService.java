@@ -10,9 +10,5 @@ public interface AppRelationshipService {
 
     Flux<AppRelationship> findAll();
 
-    Flux<AppRelationship> findByApplicationId(String applicationId);
-
-    Flux<AppRelationship> findByServiceInstanceId(String serviceInstanceId);
-
     Mono<AppRelationship> save(AppRelationship entity);
 }

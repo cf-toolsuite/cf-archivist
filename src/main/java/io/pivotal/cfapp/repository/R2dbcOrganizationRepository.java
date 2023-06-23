@@ -33,7 +33,7 @@ public class R2dbcOrganizationRepository {
         return
                 client
                 .select(Organization.class)
-                .matching(Query.empty().sort(Sort.by(Order.asc("org_name"))))
+                .matching(Query.empty().sort(Sort.by(Order.asc("org_name"), Order.desc("collection_time"))))
                 .all();
     }
 

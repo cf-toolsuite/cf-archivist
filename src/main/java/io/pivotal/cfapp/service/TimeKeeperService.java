@@ -23,10 +23,9 @@ public class TimeKeeperService {
     }
 
     @Transactional
-    public Mono<Void> deleteOne() {
-        return repo.deleteOne();
+    public Mono<Void> deleteAll() {
+        return repo.deleteAll();
     }
-
 
     @Transactional
     public Mono<TimeKeeper> save(String foundation, LocalDateTime collectionDateTime) {

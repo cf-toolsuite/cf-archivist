@@ -1,7 +1,5 @@
 package io.pivotal.cfapp.service;
 
-import java.time.LocalDate;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,11 +28,6 @@ public class R2dbcServiceInstanceDetailService implements ServiceInstanceDetailS
     @Override
     public Flux<ServiceInstanceDetail> findAll() {
         return repo.findAll();
-    }
-
-    @Override
-    public Flux<ServiceInstanceDetail> findByDateRange(LocalDate start, LocalDate end) {
-        return repo.findByDateRange(start, end);
     }
 
     @Override

@@ -1,10 +1,11 @@
 package io.pivotal.cfapp.repository;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
-import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.data.relational.core.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -24,43 +25,33 @@ public class R2dbcAppRelationshipRepository {
 
     public Mono<Void> deleteAll() {
         return
-                client
+            client
                 .delete(AppRelationship.class)
                 .all()
                 .then();
     }
 
     public Flux<AppRelationship> findAll() {
+        Sort order = Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("app_name"), Order.desc("collection_time"));
         return
-                client
+            client
                 .select(AppRelationship.class)
-                .matching(Query.empty().sort(Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("app_name"))))
+                .matching(Query.empty().sort(order))
                 .all();
     }
 
-    public Flux<AppRelationship> findByApplicationId(String applicationId) {
-        Criteria criteria =
-                Criteria.where("app_id").is(applicationId);
+    public Flux<AppRelationship> findByDateRange(LocalDate start, LocalDate end) {
+        Sort order = Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("app_name"), Order.desc("collection_time"));
         return
-                client
+            client
                 .select(AppRelationship.class)
-                .matching(Query.query(criteria).sort(Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("service_name"))))
-                .all();
-    }
-
-    public Flux<AppRelationship> findByServiceInstanceId(String serviceInstanceId) {
-        Criteria criteria =
-                Criteria.where("service_instance_id").is(serviceInstanceId);
-        return
-                client
-                .select(AppRelationship.class)
-                .matching(Query.query(criteria).sort(Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("service_name"))))
+                .matching(Query.query(CommonCriteria.dateRange("collection_time", start, end)).sort(order))
                 .all();
     }
 
     public Mono<AppRelationship> save(AppRelationship entity) {
         return
-                client
+            client
                 .insert(entity);
     }
 

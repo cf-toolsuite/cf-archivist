@@ -1,5 +1,7 @@
 package io.pivotal.cfapp.repository;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -23,23 +25,33 @@ public class R2dbcSpaceRepository {
 
     public Mono<Void> deleteAll() {
         return
-                client
+            client
                 .delete(Space.class)
                 .all()
                 .then();
     }
 
     public Flux<Space> findAll() {
+        Sort order = Sort.by(Order.asc("org_name"), Order.asc("space_name"), Order.desc("collection_time"));
         return
-                client
+            client
                 .select(Space.class)
-                .matching(Query.empty().sort(Sort.by(Order.asc("org_name"), Order.asc("space_name"))))
+                .matching(Query.empty().sort(order))
+                .all();
+    }
+
+    public Flux<Space> findByDateRange(LocalDate start, LocalDate end) {
+        Sort order = Sort.by(Order.asc("org_name"), Order.asc("space_name"), Order.desc("collection_time"));
+        return
+            client
+                .select(Space.class)
+                .matching(Query.query(CommonCriteria.dateRange("collection_time", start, end)).sort(order))
                 .all();
     }
 
     public Mono<Space> save(Space entity) {
         return
-                client
+            client
                 .insert(entity);
     }
 }

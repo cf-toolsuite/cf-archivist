@@ -1,23 +1,17 @@
 package io.pivotal.cfapp.repository;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
-import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.data.relational.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import io.pivotal.cfapp.domain.ServiceInstanceDetail;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
-import reactor.util.function.Tuples;
 
 @Repository
 public class R2dbcServiceInstanceDetailRepository {
@@ -31,33 +25,33 @@ public class R2dbcServiceInstanceDetailRepository {
 
     public Mono<Void> deleteAll() {
         return
-                client
+            client
                 .delete(ServiceInstanceDetail.class)
                 .all()
                 .then();
     }
 
     public Flux<ServiceInstanceDetail> findAll() {
+        Sort order = Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("service"), Order.asc("service_name"), Order.desc("collection_time"));
         return
-                client
+            client
                 .select(ServiceInstanceDetail.class)
-                .matching(Query.empty().sort(Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("service"), Order.asc("service_name"))))
+                .matching(Query.empty().sort(order))
                 .all();
     }
 
     public Flux<ServiceInstanceDetail> findByDateRange(LocalDate start, LocalDate end) {
-        Criteria criteria =
-                Criteria.where("last_updated").lessThanOrEquals(LocalDateTime.of(end, LocalTime.MAX)).and("last_updated").greaterThan(LocalDateTime.of(start, LocalTime.MIDNIGHT));
+        Sort order = Sort.by(Order.asc("organization"), Order.asc("space"), Order.asc("service"), Order.asc("service_name"), Order.desc("collection_time"));
         return
-                client
+            client
                 .select(ServiceInstanceDetail.class)
-                .matching(Query.query(criteria).sort(Sort.by(Order.desc("last_updated"))))
+                .matching(Query.query(CommonCriteria.dateRange("collection_time", start, end)).sort(order))
                 .all();
     }
 
     public Mono<ServiceInstanceDetail> save(ServiceInstanceDetail entity) {
         return
-                client
+            client
                 .insert(entity);
     }
 }
