@@ -52,6 +52,7 @@ public class AppDetail {
 	private String lastEventActor;
 	private LocalDateTime lastEventTime;
 	private String requestedState;
+	private LocalDateTime collectionDateTime;
 
 	public String toCsv() {
 		return String.join(",", wrap(getFoundation()), wrap(getOrganization()), wrap(getSpace()), wrap(getAppId()), wrap(getAppName()),
@@ -61,7 +62,7 @@ public class AppDetail {
 				(wrap(String.join(",", getUrls() != null ? getUrls(): Collections.emptyList()))),
 				wrap(getLastPushed() != null ? getLastPushed().toString() : ""), wrap(getLastEvent()),
 				wrap(getLastEventActor()), wrap(getLastEventTime() != null ? getLastEventTime().toString() : ""),
-				wrap(getRequestedState()));
+				wrap(getRequestedState()), wrap(getCollectionDateTime() != null ? getCollectionDateTime().toString() : ""));
 	}
 
 	private static String wrap(String value) {
@@ -95,7 +96,7 @@ public class AppDetail {
 	public static String headers() {
 		return String.join(",", "foundation", "organization", "space", "application id", "application name", "buildpack", "buildpack version", "image",
                 "stack", "running instances", "total instances", "memory used (in mb)", "memory quota (in mb)", "disk used (in mb)", "disk quota (in mb)", "urls", "last pushed", "last event",
-                "last event actor", "last event time", "requested state");
+                "last event actor", "last event time", "requested state", "collection date/time");
 	}
 
 	public static AppDetailBuilder from(AppDetail detail) {
@@ -121,6 +122,7 @@ public class AppDetail {
 						.lastEvent(detail.getLastEvent())
 						.lastEventActor(detail.getLastEventActor())
 						.lastEventTime(detail.getLastEventTime())
-						.requestedState(detail.getRequestedState());
+						.requestedState(detail.getRequestedState())
+						.collectionDateTime(detail.getCollectionDateTime());
 	}
 }
