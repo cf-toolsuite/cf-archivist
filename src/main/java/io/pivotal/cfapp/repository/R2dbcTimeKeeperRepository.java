@@ -25,18 +25,10 @@ public class R2dbcTimeKeeperRepository {
                 .then();
     }
 
-    public Mono<LocalDateTime> findOne() {
+    public Mono<TimeKeeper> save(String foundation, LocalDateTime collectionDateTime) {
         return
                 client
-                .select(TimeKeeper.class)
-                .one()
-                .map(TimeKeeper::getCollectionTime);
-    }
-
-    public Mono<TimeKeeper> save(LocalDateTime collectionTime) {
-        return
-                client
-                .insert(new TimeKeeper(collectionTime));
+                .insert(TimeKeeper.builder().foundation(foundation).collectionDateTime(collectionDateTime).build());
     }
 
 }

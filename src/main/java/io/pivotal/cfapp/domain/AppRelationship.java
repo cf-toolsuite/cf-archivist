@@ -1,6 +1,9 @@
 package io.pivotal.cfapp.domain;
 
+import java.time.LocalDateTime;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.relational.core.mapping.Column;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,10 +30,13 @@ public class AppRelationship {
 	private String serviceName;
 	private String servicePlan;
 	private String serviceType;
+	@Column("collection_time")
+	private LocalDateTime collectionDateTime;
 
 	public String toCsv() {
 		return String.join(",", wrap(getFoundation()), wrap(getOrganization()), wrap(getSpace()), wrap(getAppId()), wrap(getAppName()),
-				wrap(getServiceInstanceId()), wrap(getServiceName()), wrap(getServicePlan()), wrap(getServiceType()));
+				wrap(getServiceInstanceId()), wrap(getServiceName()), wrap(getServicePlan()), wrap(getServiceType()),
+				wrap(getCollectionDateTime() != null ? getCollectionDateTime().toString() : ""));
 	}
 
 	private static String wrap(String value) {
@@ -39,7 +45,7 @@ public class AppRelationship {
 
 	public static String headers() {
         return String.join(",", "foundation", "organization", "space", "application id",
-                "application name", "service instance id", "service name", "service plan", "service type");
+                "application name", "service instance id", "service name", "service plan", "service type", "collection date/time");
 	}
 
 	public static AppRelationshipBuilder from(AppRelationship rel) {
@@ -53,7 +59,8 @@ public class AppRelationship {
 					.serviceInstanceId(rel.getServiceInstanceId())
 					.serviceName(rel.getServiceName())
 					.servicePlan(rel.getServicePlan())
-					.serviceType(rel.getServiceType());
+					.serviceType(rel.getServiceType())
+					.collectionDateTime(rel.getCollectionDateTime());
 	}
 
 }

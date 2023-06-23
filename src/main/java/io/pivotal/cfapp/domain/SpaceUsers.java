@@ -1,9 +1,12 @@
 package io.pivotal.cfapp.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.data.relational.core.mapping.Column;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,7 +22,7 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
-@JsonPropertyOrder({"foundation", "organization", "space", "auditors", "developers", "managers", "users", "user-count"})
+@JsonPropertyOrder({"foundation", "organization", "space", "auditors", "developers", "managers", "users", "user-count", "collection-date-time"})
 public class SpaceUsers {
 
 	@JsonProperty("foundation")
@@ -51,6 +54,10 @@ public class SpaceUsers {
 	@JsonProperty("user-count")
 	private Integer userCount = 0;
 
+	@Column("collection_time")
+	@JsonProperty("collection-date-time")
+    private LocalDateTime collectionDateTime;
+
 	@JsonCreator
 	public SpaceUsers(
 		@JsonProperty("foundation") String foundation,
@@ -60,7 +67,8 @@ public class SpaceUsers {
 		@JsonProperty("developers") List<String> developers,
 		@JsonProperty("managers") List<String> managers,
 		@JsonProperty("users") Set<String> users,
-		@JsonProperty("user-count") Integer userCount
+		@JsonProperty("user-count") Integer userCount,
+		@JsonProperty("collection-date-time") LocalDateTime collectionDateTime
 	) {
 		this.foundation = foundation;
 		this.organization = organization;
@@ -70,6 +78,7 @@ public class SpaceUsers {
 		this.managers = managers;
 		this.users = users;
 		this.userCount = userCount;
+		this.collectionDateTime = collectionDateTime;
 	}
 
 }

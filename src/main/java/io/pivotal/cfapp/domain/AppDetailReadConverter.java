@@ -17,6 +17,7 @@ public class AppDetailReadConverter implements Converter<Row, AppDetail> {
         return
                 AppDetail
                 .builder()
+                .foundation(Defaults.getColumnValue(source, "foundation", String.class))
                 .organization(Defaults.getColumnValue(source, "organization", String.class))
                 .space(Defaults.getColumnValue(source, "space", String.class))
                 .appId(Defaults.getColumnValue(source, "app_id", String.class))
@@ -37,6 +38,7 @@ public class AppDetailReadConverter implements Converter<Row, AppDetail> {
                 .lastEvent(Defaults.getColumnValue(source, "last_event", String.class))
                 .lastEventActor(Defaults.getColumnValue(source, "last_event_actor", String.class))
                 .requestedState(Defaults.getColumnValue(source, "requested_state", String.class))
+                .collectionDateTime(Defaults.getColumnValue(source, "collection_time", LocalDateTime.class))
                 .build();
     }
 }

@@ -17,6 +17,7 @@ public class AppDetailWriteConverter implements Converter<AppDetail, OutboundRow
     @Override
     public OutboundRow convert(AppDetail source) {
         OutboundRow row = new OutboundRow();
+        row.put("foundation", Parameter.fromOrEmpty(source.getFoundation(), String.class));
         row.put("organization", Parameter.fromOrEmpty(source.getOrganization(), String.class));
         row.put("space", Parameter.fromOrEmpty(source.getSpace(), String.class));
         row.put("app_id", Parameter.fromOrEmpty(source.getAppId(), String.class));
@@ -37,10 +38,7 @@ public class AppDetailWriteConverter implements Converter<AppDetail, OutboundRow
         row.put("last_event", Parameter.fromOrEmpty(source.getLastEvent(), String.class));
         row.put("last_event_actor", Parameter.fromOrEmpty(source.getLastEventActor(), String.class));
         row.put("requested_state", Parameter.fromOrEmpty(source.getRequestedState(), String.class));
-        row.put("buildpack_release_type", Parameter.fromOrEmpty(source.getBuildpackReleaseType(), String.class));
-        row.put("buildpack_release_date", Parameter.fromOrEmpty(source.getBuildpackReleaseDate(), String.class));
-        row.put("buildpack_latest_version", Parameter.fromOrEmpty(source.getBuildpackLatestVersion(), String.class));
-        row.put("buildpack_latest_url", Parameter.fromOrEmpty(source.getBuildpackLatestUrl(), String.class));
+        row.put("collection_time", Parameter.fromOrEmpty(source.getCollectionDateTime(), LocalDateTime.class));
         return row;
     }
 

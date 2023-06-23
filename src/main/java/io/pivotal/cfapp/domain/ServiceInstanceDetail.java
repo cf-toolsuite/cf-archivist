@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import lombok.Builder.Default;
 @Getter
 @EqualsAndHashCode
 @ToString
+@Table("service_instance_detail")
 public class ServiceInstanceDetail {
 
 	private String foundation;
@@ -39,13 +42,15 @@ public class ServiceInstanceDetail {
 	private LocalDateTime lastUpdated;
 	private String dashboardUrl;
 	private String requestedState;
+	@Column("collection_time")
+	private LocalDateTime collectionDateTime;
 
 	public String toCsv() {
 		return String.join(",", wrap(getFoundation()), wrap(getOrganization()), wrap(getSpace()), wrap(getServiceInstanceId()), wrap(getName()),
 				wrap(getService()), wrap(getDescription()), wrap(getPlan()), wrap(getType()),
 				wrap(String.join(",", getApplications() != null ? getApplications(): Collections.emptyList())), wrap(getLastOperation()),
 				wrap(getLastUpdated() != null ? getLastUpdated().toString() : ""), wrap(getDashboardUrl()),
-				wrap(getRequestedState()));
+				wrap(getRequestedState()), wrap(getCollectionDateTime() != null ? getCollectionDateTime().toString() : ""));
 	}
 
 	private static String wrap(String value) {
@@ -54,7 +59,7 @@ public class ServiceInstanceDetail {
 
 	public static String headers() {
         return String.join(",", "foundation", "organization", "space", "service instance id",
-                "name", "service", "description", "plan", "type", "bound applications", "last operation", "last updated", "dashboard url", "requested state");
+                "name", "service", "description", "plan", "type", "bound applications", "last operation", "last updated", "dashboard url", "requested state", "collection date/time");
 	}
 
 	public String getApplicationsAsCsv() {
@@ -77,7 +82,8 @@ public class ServiceInstanceDetail {
                     .lastOperation(detail.getLastOperation())
                     .lastUpdated(detail.getLastUpdated())
                     .dashboardUrl(detail.getDashboardUrl())
-                    .requestedState(detail.getRequestedState());
+                    .requestedState(detail.getRequestedState())
+					.collectionDateTime(detail.getCollectionDateTime());
     }
 
 }

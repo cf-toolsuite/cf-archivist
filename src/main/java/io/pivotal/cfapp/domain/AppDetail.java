@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
+@Table("application_detail")
 public class AppDetail {
 
 	private String foundation;
@@ -52,6 +55,7 @@ public class AppDetail {
 	private String lastEventActor;
 	private LocalDateTime lastEventTime;
 	private String requestedState;
+	@Column("collection_time")
 	private LocalDateTime collectionDateTime;
 
 	public String toCsv() {

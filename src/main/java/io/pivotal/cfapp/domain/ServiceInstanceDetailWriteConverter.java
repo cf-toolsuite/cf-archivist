@@ -17,6 +17,7 @@ public class ServiceInstanceDetailWriteConverter implements Converter<ServiceIns
     @Override
     public OutboundRow convert(ServiceInstanceDetail source) {
         OutboundRow row = new OutboundRow();
+        row.put("foundation", Parameter.fromOrEmpty(source.getFoundation(), String.class));
         row.put("organization", Parameter.fromOrEmpty(source.getOrganization(), String.class));
         row.put("space", Parameter.fromOrEmpty(source.getSpace(), String.class));
         row.put("service_instance_id", Parameter.fromOrEmpty(source.getServiceInstanceId(), String.class));
@@ -30,6 +31,7 @@ public class ServiceInstanceDetailWriteConverter implements Converter<ServiceIns
         row.put("dashboard_url", Parameter.fromOrEmpty(source.getDashboardUrl(), String.class));
         row.put("requested_state", Parameter.fromOrEmpty(source.getRequestedState(), String.class));
         row.put("last_updated", Parameter.fromOrEmpty(source.getLastUpdated(), LocalDateTime.class));
+        row.put("collection_time", Parameter.fromOrEmpty(source.getCollectionDateTime(), LocalDateTime.class));
         return row;
     }
 

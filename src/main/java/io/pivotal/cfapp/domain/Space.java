@@ -1,7 +1,8 @@
 package io.pivotal.cfapp.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -16,11 +17,14 @@ import lombok.ToString;
 
 @Builder
 @Getter
-@JsonPropertyOrder({ "organization-id", "organization-name", "space-id", "space-name" })
+@JsonPropertyOrder({ "foundation", "organization-id", "organization-name", "space-id", "space-name", "collection-date-time" })
 @EqualsAndHashCode
 @ToString
 @Table("spaces")
 public class Space {
+
+    @JsonProperty("foundation")
+    private final String foundation;
 
     @Column("org_id")
     @JsonProperty("organization-id")
@@ -30,25 +34,31 @@ public class Space {
     @JsonProperty("organization-name")
     private final String organizationName;
 
-    @Id
     @JsonProperty("space-id")
     private final String spaceId;
 
     @JsonProperty("space-name")
     private final String spaceName;
 
+    @Column("collection_time")
+    @JsonProperty("collection-date-time")
+    private LocalDateTime collectionDateTime;
 
     @JsonCreator
-    @PersistenceConstructor
+    @PersistenceCreator
     Space(
+            @JsonProperty("foundation") String foundation,
             @JsonProperty("organization-id") String organizationId,
             @JsonProperty("organization-name") String organizationName,
             @JsonProperty("space-id") String spaceId,
-            @JsonProperty("space-name") String spaceName) {
+            @JsonProperty("space-name") String spaceName,
+            @JsonProperty("collection-date-time") LocalDateTime collectionDateTime) {
+        this.foundation = foundation;
         this.organizationId = organizationId;
         this.organizationName = organizationName;
         this.spaceId = spaceId;
         this.spaceName = spaceName;
+        this.collectionDateTime = collectionDateTime;
     }
 
 }

@@ -17,7 +17,7 @@ public class ServiceInstanceDetailReadConverter implements Converter<Row, Servic
         return
                 ServiceInstanceDetail
                 .builder()
-                .pk(source.get("pk", Long.class))
+                .foundation(Defaults.getColumnValue(source, "foundation", String.class))
                 .organization(Defaults.getColumnValue(source, "organization", String.class))
                 .space(Defaults.getColumnValue(source, "space", String.class))
                 .serviceInstanceId(Defaults.getColumnValue(source, "service_instance_id", String.class))
@@ -32,6 +32,7 @@ public class ServiceInstanceDetailReadConverter implements Converter<Row, Servic
                 .dashboardUrl(Defaults.getColumnValue(source, "dashboard_url", String.class))
                 .lastUpdated(Defaults.getColumnValue(source, "last_updated", LocalDateTime.class))
                 .requestedState(Defaults.getColumnValue(source, "requested_state", String.class))
+                .collectionDateTime(Defaults.getColumnValue(source, "collection_time", LocalDateTime.class))
                 .build();
     }
 }

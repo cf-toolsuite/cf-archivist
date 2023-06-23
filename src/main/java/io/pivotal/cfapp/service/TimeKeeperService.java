@@ -27,17 +27,13 @@ public class TimeKeeperService {
         return repo.deleteOne();
     }
 
-    public Mono<LocalDateTime> findOne() {
-        return repo.findOne();
-    }
 
     @Transactional
-    public Mono<TimeKeeper> save() {
-        LocalDateTime collectionTime = LocalDateTime.now();
+    public Mono<TimeKeeper> save(String foundation, LocalDateTime collectionDateTime) {
         return
                 repo
-                .save(collectionTime)
+                .save(foundation, collectionDateTime)
                 .onErrorContinue(
-                        (ex, data) -> log.error(String.format("Problem saving collectime time %s.", collectionTime), ex));
+                        (ex, data) -> log.error(String.format("Problem saving collection date/time %s from %s.", collectionDateTime, foundation), ex));
     }
 }
