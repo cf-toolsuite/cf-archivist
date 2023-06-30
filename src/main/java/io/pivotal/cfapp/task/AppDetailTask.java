@@ -11,12 +11,14 @@ import io.pivotal.cfapp.config.PasSettings;
 import io.pivotal.cfapp.domain.Space;
 import io.pivotal.cfapp.event.AppDetailReadyToBeRetrievedEvent;
 import io.pivotal.cfapp.event.AppDetailRetrievedEvent;
+import io.pivotal.cfapp.event.DatabaseCreatedEvent;
+import io.pivotal.cfapp.event.TkRetrievedEvent;
 import io.pivotal.cfapp.service.AppDetailService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class AppDetailTask implements ApplicationListener<AppDetailReadyToBeRetrievedEvent> {
+public class AppDetailTask implements ApplicationListener<TkRetrievedEvent> {
 
     private final PasSettings settings;
     private final AppDetailService appDetailsService;

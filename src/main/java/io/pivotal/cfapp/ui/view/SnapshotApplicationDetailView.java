@@ -82,6 +82,7 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         Column<AppDetail> lastEventActorColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.lastEventActor}").withProperty("lastEventActor", AppDetail::getLastEventActor)).setHeader("Last Event Actor");
         Column<AppDetail> lastEventTimeColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getLastEventTime, () -> dateTimeFormatter)).setHeader("Last Event Time").setTextAlign(ColumnTextAlign.END);
         Column<AppDetail> requestedStateColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.requestedState}").withProperty("requestedState", AppDetail::getRequestedState)).setHeader("Requested State").setTextAlign(ColumnTextAlign.CENTER);
+        Column<AppDetail> collectionDateTimeColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getCollectionDateTime, () -> dateTimeFormatter)).setHeader("Collection Date/Time").setTextAlign(ColumnTextAlign.END);
 
         HeaderRow filterRow = grid.appendHeaderRow();
 
@@ -251,7 +252,7 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         lastEventActorField.setSizeFull();
         lastEventActorField.setPlaceholder("Filter");
 
-        VerticalLayout lastEventTimeField = getLastPushedPicker(dataProvider);
+        VerticalLayout lastEventTimeField = getLastEventTimePicker(dataProvider);
         filterRow.getCell(lastEventTimeColumn).setComponent(lastEventTimeField);
         lastEventTimeField.setSizeFull();
 
@@ -263,6 +264,10 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         filterRow.getCell(requestedStateColumn).setComponent(requestedStateField);
         requestedStateField.setSizeFull();
         requestedStateField.setPlaceholder("Filter");
+
+        VerticalLayout collectionDateTimeField = getCollectionDateTimePicker(dataProvider);
+        filterRow.getCell(collectionDateTimeColumn).setComponent(collectionDateTimeField);
+        collectionDateTimeField.setSizeFull();
 
         // @see https://github.com/vaadin/vaadin-grid-flow/issues/234
         for (Column<AppDetail> column : grid.getColumns())
@@ -350,6 +355,51 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
                     dataProvider.addFilter(
                         f -> f.getLastEventTime() == null ? false : (f.getLastEventTime().toLocalDate().isBefore(selectedDate) &&
                             f.getLastEventTime().toLocalDate().isAfter(startDate)));
+                }
+            } else {
+                startDatePicker.setMax(null);
+            }
+        });
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.add(startDatePicker, endDatePicker);
+        return layout;
+    }
+
+    public VerticalLayout getCollectionDateTimePicker(ListDataProvider<AppDetail> dataProvider) {
+        DatePicker startDatePicker = new DatePicker();
+        startDatePicker.setPlaceholder("Start");
+        startDatePicker.setSizeFull();
+        DatePicker endDatePicker = new DatePicker();
+        endDatePicker.setPlaceholder("End");
+        endDatePicker.setSizeFull();
+
+        startDatePicker.addValueChangeListener(event -> {
+            LocalDate selectedDate = event.getValue();
+            LocalDate endDate = endDatePicker.getValue();
+            if (selectedDate != null) {
+                endDatePicker.setMin(selectedDate.plusDays(1));
+                if (endDate == null) {
+                    endDatePicker.setOpened(true);
+                } else {
+                    dataProvider.addFilter(
+                        f -> f.getCollectionDateTime() == null ? false : (f.getCollectionDateTime().toLocalDate().isAfter(selectedDate) &&
+                            f.getCollectionDateTime().toLocalDate().isBefore(endDate)));
+                }
+            } else {
+                endDatePicker.setMin(null);
+            }
+        });
+
+        endDatePicker.addValueChangeListener(event -> {
+            LocalDate selectedDate = event.getValue();
+            LocalDate startDate = startDatePicker.getValue();
+            if (selectedDate != null) {
+                startDatePicker.setMax(selectedDate.minusDays(1));
+                if (startDate != null) {
+                    dataProvider.addFilter(
+                        f -> f.getCollectionDateTime() == null ? false : (f.getCollectionDateTime().toLocalDate().isBefore(selectedDate) &&
+                            f.getCollectionDateTime().toLocalDate().isAfter(startDate)));
                 }
             } else {
                 startDatePicker.setMax(null);

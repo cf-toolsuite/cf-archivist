@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "cf")
-public class HooverSettings {
+public class ArchivistSettings {
 
-	private String baseUrl = "https://cf-hoover"; // use a virtual host name (e.g., service name, not a host name).
+	private String baseUrl = "https://cf-archivist"; // use a virtual host name (e.g., service name, not a host name).
 	private boolean sslValidationSkipped;
 
 }

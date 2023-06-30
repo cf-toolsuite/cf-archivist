@@ -41,7 +41,7 @@ public class MetricCacheRefreshTask implements ApplicationRunner {
     }
 
     @Scheduled(cron = "${cron.collection}")
-    protected void refreshCache() {
+    public void refreshCache() {
         log.info("MetricCacheRefreshTask started");
         archivistClient
             .getSummary()

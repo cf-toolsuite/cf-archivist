@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import io.pivotal.cfapp.client.ArchivistClient;
 import io.pivotal.cfapp.event.DatabaseCreatedEvent;
 import io.pivotal.cfapp.event.TkRetrievedEvent;
 import io.pivotal.cfapp.service.TimeKeeperService;
@@ -15,19 +16,23 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class TkTask implements ApplicationListener<DatabaseCreatedEvent> {
 
+    private final ArchivistClient client;
     private final TimeKeeperService tkService;
     private final ApplicationEventPublisher publisher;
 
     @Autowired
     public TkTask(
+            ArchivistClient client,
             TimeKeeperService tkService,
             ApplicationEventPublisher publisher) {
+        this.client = client;
         this.tkService = tkService;
         this.publisher = publisher;
     }
 
     public void collect() {
         log.info("TkTask started");
+        client.
         tkService
             .deleteOne()
             .then(tkService.save())
