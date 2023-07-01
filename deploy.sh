@@ -2,7 +2,7 @@
 
 set -e
 
-export APP_NAME=cf-hoover-ui
+export APP_NAME=cf-archivist
 export REGISTRY_NAME=hooverRegistry
 
 cf push --no-start

@@ -184,6 +184,7 @@ Deploy the app (bound to a pre-existing instance of Spring Cloud Service Registr
 ```
 ./deploy.sh
 ```
+> Assumes a Spring Cloud Services service registry instance named hooverRegistry has already been provisioned
 
 Shutdown and delete the app with
 
