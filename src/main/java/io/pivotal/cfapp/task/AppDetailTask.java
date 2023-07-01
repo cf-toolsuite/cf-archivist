@@ -7,38 +7,34 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import io.pivotal.cfapp.config.PasSettings;
-import io.pivotal.cfapp.domain.Space;
-import io.pivotal.cfapp.event.AppDetailReadyToBeRetrievedEvent;
+import io.pivotal.cfapp.domain.AppDetail;
 import io.pivotal.cfapp.event.AppDetailRetrievedEvent;
-import io.pivotal.cfapp.event.DatabaseCreatedEvent;
-import io.pivotal.cfapp.event.TkRetrievedEvent;
+import io.pivotal.cfapp.event.SnapshotDetailRetrievedEvent;
 import io.pivotal.cfapp.service.AppDetailService;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @Component
-public class AppDetailTask implements ApplicationListener<TkRetrievedEvent> {
+public class AppDetailTask implements ApplicationListener<SnapshotDetailRetrievedEvent> {
 
-    private final PasSettings settings;
-    private final AppDetailService appDetailsService;
+    private final AppDetailService service;
     private final ApplicationEventPublisher publisher;
 
     @Autowired
     public AppDetailTask(
-            PasSettings settings,
-            AppDetailService appDetailsService,
+            AppDetailService service,
             ApplicationEventPublisher publisher) {
-        this.settings = settings;
-        this.appDetailsService = appDetailsService;
+        this.service = service;
         this.publisher = publisher;
     }
 
-    public void collect(List<Space> spaces) {
+    public void collect(List<AppDetail> applications) {
         log.info("AppDetailTask started");
-        appDetailsService.
-            .flatMap(appDetailsService::save)
-            .thenMany(appDetailsService.findAll())
+        Flux
+            .fromIterable(applications)
+            .flatMap(service::save)
+            .thenMany(service.findAll())
             .collectList()
             .subscribe(
                 result -> {
@@ -52,11 +48,8 @@ public class AppDetailTask implements ApplicationListener<TkRetrievedEvent> {
     }
 
     @Override
-    public void onApplicationEvent(AppDetailReadyToBeRetrievedEvent event) {
-        if (appDetailReadyToBeCollectedDecider.isDecided()) {
-            collect(List.copyOf(appDetailReadyToBeCollectedDecider.getSpaces()));
-            appDetailReadyToBeCollectedDecider.reset();
-        }
+    public void onApplicationEvent(SnapshotDetailRetrievedEvent event) {
+        collect(List.copyOf(event.getApplications()));
     }
 
 }

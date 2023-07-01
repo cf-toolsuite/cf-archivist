@@ -11,13 +11,9 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLink;
 
-import io.pivotal.cfapp.ui.view.DemographicsView;
 import io.pivotal.cfapp.ui.view.HomeView;
 import io.pivotal.cfapp.ui.view.SnapshotApplicationDetailView;
-import io.pivotal.cfapp.ui.view.SnapshotApplicationSummaryView;
 import io.pivotal.cfapp.ui.view.SnapshotServiceInstanceDetailView;
-import io.pivotal.cfapp.ui.view.SnapshotServiceInstanceSummaryView;
-import io.pivotal.cfapp.ui.view.UsersView;
 
 
 public class MainLayout extends AppLayout {
@@ -32,16 +28,9 @@ public class MainLayout extends AppLayout {
     	Tabs snapshotDetailTabs = createTabs();
     	Tab sadTab = createTab(VaadinIcon.TABLE.create(), "Application", SnapshotApplicationDetailView.class);
     	Tab sidTab = createTab(VaadinIcon.TABLE.create(), "Service Instance", SnapshotServiceInstanceDetailView.class);
-    	Tab suTab = createTab(VaadinIcon.USERS.create(), "Users", UsersView.class);
-    	snapshotDetailTabs.add(sadTab, sidTab, suTab);
-    	accordion.add("Snapshot Detail", snapshotDetailTabs).addThemeVariants(DetailsVariant.REVERSE);
 
-    	Tabs snapshotSummaryTabs = createTabs();
-    	Tab ssdTab = createTab(VaadinIcon.PIE_CHART.create(),"Demographics", DemographicsView.class);
-    	Tab ssaTab = createTab(VaadinIcon.DASHBOARD.create(),"Application", SnapshotApplicationSummaryView.class);
-    	Tab sssiTab = createTab(VaadinIcon.DASHBOARD.create(),"Service Instance", SnapshotServiceInstanceSummaryView.class);
-    	snapshotSummaryTabs.add(ssdTab, ssaTab, sssiTab);
-    	accordion.add("Snapshot Summary", snapshotSummaryTabs).addThemeVariants(DetailsVariant.REVERSE);
+    	snapshotDetailTabs.add(sadTab, sidTab);
+    	accordion.add("Snapshot Detail", snapshotDetailTabs).addThemeVariants(DetailsVariant.REVERSE);
 
     	addToNavbar(true, homeTab, new DrawerToggle());
     	addToDrawer(accordion);

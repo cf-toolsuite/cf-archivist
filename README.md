@@ -3,13 +3,11 @@
 [![Beta](https://img.shields.io/badge/Release-GA-darkgreen)](https://img.shields.io/badge/Release-GA-darkgreen) ![Github Action CI Workflow Status](https://github.com/pacphi/cf-archivist/actions/workflows/maven.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/pacphi/cf-archivist/badge.svg?style=plastic)](https://snyk.io/test/github/pacphi/cf-archivist) [![Release](https://jitpack.io/v/pacphi/cf-archivist.svg)](https://jitpack.io/#pacphi/cf-archivist/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
-You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/cf-hoover) deployed. It's happily aggregating usage data from multiple foundations.  Now your CIO wants you to build a dashboard.
+You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/cf-hoover) deployed. It's happily aggregating usage data from multiple foundations. But now you want retain snapshot data across foundations spanning multiple collection intervals.
 
-`cf-archivist` humbly aspires to deliver individual dashboards corresponding to each of the endpoints `cf-hoover` exposes.
+`cf-archivist` closes this gap by allowing you to collect and persist snapshots in a time-series based schema.  You may also define and manage query policies in a Git repo, then schedule execution of one, many or all of them, capture the results as email attachments, and finally send these to designated recipients.
 
-Here's a sample...
-
-![Snapshot Summary containing application and application instance metrics](docs/snapshot-summary-ai.png)
+There's also a basic user-interface that let's you filter and review detail snapshot data list applications and service instances.  More capabilities are planned.
 
 # Table of Contents
 
@@ -17,17 +15,10 @@ Here's a sample...
   * [Tools](#tools)
   * [Clone](#clone)
   * [How to configure](#how-to-configure)
-    * [To set the operations schedule](#to-set-the-operations-schedule)
-    * [General configuration notes](#general-configuration-notes)
   * [How to Build](#how-to-build)
   * [How to Run with Maven](#how-to-run-with-maven)
   * [How to deploy to VMware Tanzu Application Service](#how-to-deploy-to-vmware-tanzu-application-service)
     * [using scripts](#using-scripts)
-  * [Available UI Endpoints](#available-ui-endpoints)
-    * [Accounting](#accounting)
-    * [Snapshot](#snapshot)
-  * [What else would you like to see?](#what-else-would-you-like-to-see)
-  * [Credits](#credits)
 
 ## Prerequisites
 
@@ -74,6 +65,90 @@ E.g., if you had a configuration file named `application-pws.yml`
 ./mvw spring-boot:run -Dspring.profiles.active=pws
 ```
 
+### Using an external database
+
+By default `cf-archivist` employs an in-memory [H2](http://www.h2database.com) instance.
+
+If you wish to configure an external database you must set set `spring.r2dbc.*` properties as described [here](https://github.com/spring-projects-experimental/spring-boot-r2dbc).
+
+Before you `cf push`, stash the credentials for your database in `config/secrets.json` like so
+
+```
+{
+  "R2DBC_URL": "rdbc:<database-provider>://<server>:<port>/<database-name>",
+  "R2DBC_USERNAME": "<username>",
+  "R2DBC_PASSWORD": "<password>"
+}
+```
+
+> Replace place-holders encapsulated in `<>` above with real credentials
+
+Or you may wish to `cf bind-service` to a database service instance. In this case you must abide by a naming convention. The name of your service instance must be `cf-archivist-backend`.
+
+[DDL](https://en.wikipedia.org/wiki/Data_definition_language) scripts for each supported database provider are managed underneath [src/main/resources/db](src/main/resources/db). Supported databases are: [h2](src/main/resources/db/h2/schema.ddl), [mysql](src/main/resources/db/mysql/schema.ddl) and [postgresql](src/main/resources/db/postgresql/schema.ddl).
+
+> Review the sample scripts for deploying [postgres](scripts/deploy.postgres.sh) and [mysql](scripts/deploy.mysql.sh).  And consult the corresponding secrets samples for [postgres](samples/secrets.pws.with-postgres.json) and [mysql](samples/secrets.pws.with-mysql.json) when you intend to transact an externally hosted database.
+
+### Managing policies
+
+Creation and deletion of policies are managed via API endpoints by default. When an audit trail is important to you, you may opt to set `cf.policies.git.uri` -- this property specifies the location of the repository that contains policy files in JSON format.
+
+When you do this, you shift the lifecycle management of policies to Git.  You will have to specify additional configuration, like
+
+* `cf.policies.git.commit` the commit id to pull from
+  * if this property is missing the latest commit will be used
+* `cf.policies.git.filePaths` an array of file paths of policy files
+
+If you want to work with a private repository, then you will have to specify
+
+* `cf.policies.git.username`
+* `cf.policies.git.password`
+
+one or both are used to authenticate.  In the case where you may have configured a personal access token, set `cf.policies.git.username` equal to the value of the token.
+
+#### Query policies
+
+Query policies are useful when you want to step out side the canned snapshot reporting capabilities and leverage the underlying [schema](https://github.com/pacphi/cf-archivist/tree/master/src/main/resources/db) to author one or more of your own queries and have the results delivered as comma-separated value attachments using a defined email notification [template](https://github.com/pacphi/cf-archivist/blob/master/src/main/java/io/pivotal/cfapp/domain/EmailNotificationTemplate.java).
+
+As mentioned previously the policy file must adhere to a naming convention
+
+* a filename ending with `-QP.json` encapsulates an individual [QueryPolicy](src/main/java/io/pivotal/cfapp/domain/QueryPolicy.java)
+
+If you intend to deploy query policies you must also configure the `notification.engine` property.  You can define it in your
+
+application-{env}.yml
+
+```
+notification:
+  engine: <engine>
+```
+
+or
+
+secrets-{env}.json
+
+```
+  "NOTIFICATION_ENGINE": "<engine>"
+```
+
+> Replace `<engine>` above with one of either `java-mail`, or `sendgrid`
+
+Furthermore, you will need to define additional properties depending on which engine you chose.  Checkout [application.yml](https://github.com/pacphi/cf-archivist/blob/master/src/main/resources/application.yml) to get to know what they are.
+
+E.g, if you intended to use [sendgrid](https://www.sendgrid.com) as your email notification engine then your secrets-{env}.yml might contain
+
+```
+  "NOTIFICATION_ENGINE": "sendgrid",
+  "SENDGRID_API-KEY": "replace_me"
+```
+
+### To set the operations schedule
+
+Update the value of the `cron` properties in `application.yml`.  Consult this [article](https://riptutorial.com/spring/example/21209/cron-expression) and the [Javadoc](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron--) to understand how to tune it for your purposes.
+
+> `cron` has two sub-properties: `collection` and `execution`.  Make sure `execution` is scheduled to trigger after `collection`.
+
+
 ## How to Build
 
 ```
@@ -115,76 +190,3 @@ Shutdown and delete the app with
 ```
 ./destroy.sh
 ```
-
-## Available UI Endpoints
-
-### Accounting
-
-Official system-wide reporting for all foundations registered
-
-```
-GET /accounting/applications
-```
-> Provides summary metrics for application instances by year and month across all registered foundations
-
-```
-GET /accounting/service/plans
-```
-> Provides summary metrics for service instances by year and month and then by plan across all registered foundations
-
-```
-GET /accounting/services
-```
-> Provides summary metrics for service instances by year and month across all registered foundations
-
-```
-GET /accounting/tasks
-```
-> Provides summary metrics for tasks by year and month across all registered foundations
-
-### Snapshot
-
-Point in time capture of all workloads
-
-```
-GET /snapshot/detail/ai
-```
-> Provides filterable list of all applications (by foundation, organization and space)
-
-```
-GET /snapshot/detail/si
-```
-> Provides filterable list of all service instances (by foundation, organization and space)
-
-```
-GET /snapshot/detail/users
-```
-> Provides filterable lists of all user and service accounts
-
-```
-GET /snapshot/summary/ai
-```
-> Provides summary metrics for applications across all registered foundations
-
-```
-GET /snapshot/summary/si
-```
-> Provides summary metrics for service instances across all registered foundations
-
-```
-GET /snapshot/demographics
-```
-> Provides summary metrics for organizations, spaces, user accounts and service accounts across all registered foundations
-
-
-## What else would you like to see?
-
-What other insight might we glean from available foundation data? Applications, services, tasks, events, logs, users, product info... all fair game.  Submit a [feature request](https://github.com/pacphi/cf-archivist/issues/new).
-
-
-## Credits
-
-* [Vaadin Flow and Reactive Spring](https://committed.software/posts/vaadin-and-spring/vaadin-spring/)
-* [Achieving Fault Tolerance With Resilience4j](https://dzone.com/articles/resilience4j-intro)
-* [Spring Boot Demo of Resilience4j](https://github.com/RobWin/resilience4j-spring-boot2-demo)
-* [App Layout Tutorial](https://github.com/vaadin-learning-center/flow-layout-app_layout-vaadin)

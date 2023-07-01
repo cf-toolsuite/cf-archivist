@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import io.pivotal.cfapp.domain.TimeKeeper;
 import io.pivotal.cfapp.repository.R2dbcTimeKeeperRepository;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -25,6 +26,10 @@ public class TimeKeeperService {
     @Transactional
     public Mono<Void> deleteAll() {
         return repo.deleteAll();
+    }
+
+    public Flux<TimeKeeper> findAll() {
+        return repo.findAll();
     }
 
     @Transactional

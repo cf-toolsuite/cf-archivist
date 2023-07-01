@@ -21,6 +21,6 @@ public class HomeView extends Div {
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
         log.trace("Navigated to ROOT... now redirecting!");
-        UI.getCurrent().navigate(SnapshotApplicationSummaryView.class);
+        UI.getCurrent().navigate(SnapshotApplicationDetailView.class);
   }
 }

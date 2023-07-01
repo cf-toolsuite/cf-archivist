@@ -1,45 +1,41 @@
 package io.pivotal.cfapp.task;
 
-import org.cloudfoundry.client.v3.organizations.ListOrganizationsRequest;
-import org.cloudfoundry.operations.DefaultCloudFoundryOperations;
-import org.cloudfoundry.util.PaginationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import io.pivotal.cfapp.domain.Organization;
+import io.pivotal.cfapp.client.ArchivistClient;
 import io.pivotal.cfapp.event.OrganizationsRetrievedEvent;
-import io.pivotal.cfapp.event.TkRetrievedEvent;
+import io.pivotal.cfapp.event.TimeKeepersRetrievedEvent;
 import io.pivotal.cfapp.service.OrganizationService;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
 @Slf4j
 @Component
-public class OrganizationsTask implements ApplicationListener<TkRetrievedEvent> {
+public class OrganizationsTask implements ApplicationListener<TimeKeepersRetrievedEvent> {
 
-    private final DefaultCloudFoundryOperations opsClient;
-    private final OrganizationService organizationService;
+    private final ArchivistClient client;
+    private final OrganizationService service;
     private ApplicationEventPublisher publisher;
 
     @Autowired
     public OrganizationsTask(
-            DefaultCloudFoundryOperations opsClient,
-            OrganizationService organizationService,
+            ArchivistClient client,
+            OrganizationService service,
             ApplicationEventPublisher publisher) {
-        this.opsClient = opsClient;
-        this.organizationService = organizationService;
+        this.client = client;
+        this.service = service;
         this.publisher = publisher;
     }
 
     public void collect() {
         log.info("OrganizationTask started");
-        organizationService
-            .deleteAll()
-            .thenMany(getOrganizations())
-            .flatMap(organizationService::save)
-            .thenMany(organizationService.findAll())
+        client.getOrganizations()
+            .flatMapMany(Flux::fromIterable)
+            .flatMap(service::save)
+            .thenMany(service.findAll())
             .collectList()
             .subscribe(
                 result -> {
@@ -53,17 +49,8 @@ public class OrganizationsTask implements ApplicationListener<TkRetrievedEvent> 
             );
     }
 
-    protected Flux<Organization> getOrganizations() {
-        return PaginationUtils.requestClientV3Resources(
-                page -> opsClient
-                .getCloudFoundryClient()
-                .organizationsV3()
-                .list(ListOrganizationsRequest.builder().page(page).build()))
-                .map(os -> new Organization(os.getId(), os.getName()));
-    }
-
     @Override
-    public void onApplicationEvent(TkRetrievedEvent event) {
+    public void onApplicationEvent(TimeKeepersRetrievedEvent event) {
         collect();
     }
 

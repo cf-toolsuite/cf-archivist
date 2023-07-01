@@ -14,6 +14,7 @@ import io.pivotal.cfapp.domain.SnapshotDetail;
 import io.pivotal.cfapp.domain.SnapshotSummary;
 import io.pivotal.cfapp.domain.Space;
 import io.pivotal.cfapp.domain.SpaceUsers;
+import io.pivotal.cfapp.domain.TimeKeepers;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -26,6 +27,20 @@ public class ArchivistClient {
     @Autowired
     public ArchivistClient(WebClient client) {
         this.client = client;
+    }
+
+    @CircuitBreaker(name = "hooverClient.timeKeepers", fallbackMethod = "fallbackForTimeKeepers")
+    public Mono<TimeKeepers> getTimeKeepers() {
+        return client
+                .get()
+                    .uri("/collect")
+                    .retrieve()
+                    .bodyToMono(TimeKeepers.class);
+    }
+
+    protected Mono<TimeKeepers> fallbackForTimeKeepers(Exception e) {
+        log.warn("Could not obtain results from call to /collect", e);
+        return Mono.just(TimeKeepers.builder().build());
     }
 
     @CircuitBreaker(name = "hooverClient.organizations", fallbackMethod = "fallbackForOrganizations")

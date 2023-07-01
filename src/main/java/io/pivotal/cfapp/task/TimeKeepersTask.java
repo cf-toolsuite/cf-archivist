@@ -8,20 +8,21 @@ import org.springframework.stereotype.Component;
 
 import io.pivotal.cfapp.client.ArchivistClient;
 import io.pivotal.cfapp.event.DatabaseCreatedEvent;
-import io.pivotal.cfapp.event.TkRetrievedEvent;
+import io.pivotal.cfapp.event.TimeKeepersRetrievedEvent;
 import io.pivotal.cfapp.service.TimeKeeperService;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @Component
-public class TkTask implements ApplicationListener<DatabaseCreatedEvent> {
+public class TimeKeepersTask implements ApplicationListener<DatabaseCreatedEvent> {
 
     private final ArchivistClient client;
     private final TimeKeeperService tkService;
     private final ApplicationEventPublisher publisher;
 
     @Autowired
-    public TkTask(
+    public TimeKeepersTask(
             ArchivistClient client,
             TimeKeeperService tkService,
             ApplicationEventPublisher publisher) {
@@ -31,20 +32,20 @@ public class TkTask implements ApplicationListener<DatabaseCreatedEvent> {
     }
 
     public void collect() {
-        log.info("TkTask started");
-        client.
-        tkService
-            .deleteOne()
-            .then(tkService.save())
-            .then(tkService.findOne())
+        log.info("TimeKeepersTask started");
+        client.getTimeKeepers()
+            .flatMapMany(t -> Flux.fromIterable(t.getTimeKeepers()))
+            .flatMap(tk -> tkService.save(tk.getFoundation(), tk.getCollectionDateTime()))
+            .thenMany(tkService.findAll())
+            .collectList()
             .subscribe(
                 result -> {
-                    publisher.publishEvent(new TkRetrievedEvent(this).lastCollected(result));
-                    log.info("TkTask completed");
-                    log.trace("Last collected time was set to {}", result);
+                    publisher.publishEvent(new TimeKeepersRetrievedEvent(this).timeKeepers(result));
+                    log.info("TimeKeepersTask completed");
+                    log.trace("Retrieved time keepers are {}", result);
                 },
                 error -> {
-                    log.error("TkTask terminated with error", error);
+                    log.error("TimeKeepersTask terminated with error", error);
                 }
             );
     }
