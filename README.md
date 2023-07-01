@@ -182,12 +182,12 @@ Please review the [manifest.yml](manifest.yml) before deploying.
 Deploy the app (bound to a pre-existing instance of Spring Cloud Service Registry)
 
 ```
-./deploy.sh
+./scripts/deploy.sh
 ```
 > Assumes a Spring Cloud Services service registry instance named hooverRegistry has already been provisioned
 
 Shutdown and delete the app with
 
 ```
-./destroy.sh
+./scripts/destroy.sh
 ```
