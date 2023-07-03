@@ -41,6 +41,7 @@ public class DatabaseCreator implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        log.info("DatabaseCreator started");
         String path = "";
         try {
             path = obtainPathToSchemaFile("schema.ddl");
@@ -50,6 +51,7 @@ public class DatabaseCreator implements ApplicationRunner {
             log.error(String.format("Failed trying to read %s\n", path), ioe);
             System.exit(1);
         }
+        log.info("DatabaseCreator completed");
     }
 
     private String obtainPathToSchemaFile(String filename) {
@@ -67,13 +69,14 @@ public class DatabaseCreator implements ApplicationRunner {
             if (!line.isBlank()) {
                 ddl = line.strip().replace(";","");
                 client
-                .getDatabaseClient()
-                .sql(ddl)
-                .then()
-                .doOnError(e -> {
-                    log.error(e.getMessage());
-                    System.exit(1);
-                }).subscribe();
+                    .getDatabaseClient()
+                    .sql(ddl)
+                    .then()
+                    .doOnError(e -> {
+                        log.error(e.getMessage());
+                        System.exit(1);
+                    })
+                    .subscribe();
             }
         }
         br.close();

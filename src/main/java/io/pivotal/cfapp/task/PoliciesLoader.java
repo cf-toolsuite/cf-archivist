@@ -17,8 +17,8 @@ import io.pivotal.cfapp.config.GitSettings;
 import io.pivotal.cfapp.domain.Policies;
 import io.pivotal.cfapp.domain.PoliciesValidator;
 import io.pivotal.cfapp.domain.QueryPolicy;
+import io.pivotal.cfapp.event.MetricCacheRefreshedEvent;
 import io.pivotal.cfapp.service.PoliciesService;
-import io.pivotal.cfapp.event.DatabaseCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnProperty(
         prefix = "cf.policies.git", name = "uri"
         )
-public class PoliciesLoader implements ApplicationListener<DatabaseCreatedEvent> {
+public class PoliciesLoader implements ApplicationListener<MetricCacheRefreshedEvent> {
 
     private static final String QUERY_POLICY_SUFFIX = "-QP.json";
 
@@ -108,7 +108,7 @@ public class PoliciesLoader implements ApplicationListener<DatabaseCreatedEvent>
     }
 
     @Override
-    public void onApplicationEvent(DatabaseCreatedEvent event) {
+    public void onApplicationEvent(MetricCacheRefreshedEvent event) {
         load();
     }
 
