@@ -2,27 +2,28 @@ package io.pivotal.cfapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.pivotal.cfapp.task.MetricCacheRefreshTask;
+import io.pivotal.cfapp.event.DatabaseCreatedEvent;
 import reactor.core.publisher.Mono;
 
 @RestController
 @ConditionalOnProperty(prefix="cron", name="enabled", havingValue="true")
 public class MetricCacheRefreshController {
 
-    private final MetricCacheRefreshTask task;
+    private final ApplicationEventPublisher publisher;
 
     @Autowired
-    public MetricCacheRefreshController(MetricCacheRefreshTask task) {
-        this.task = task;
+    public MetricCacheRefreshController(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
     }
 
     @PostMapping("/cache/refresh")
     public Mono<ResponseEntity<Void>> refreshCache() {
-        task.refreshCache();
+        publisher.publishEvent(new DatabaseCreatedEvent(this));
         return Mono.just(ResponseEntity.noContent().build());
     }
 }

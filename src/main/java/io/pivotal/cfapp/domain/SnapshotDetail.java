@@ -1,9 +1,7 @@
 package io.pivotal.cfapp.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +15,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
-@JsonPropertyOrder({ "applications", "service-instances", "application-relationships", "user-accounts", "service-accounts" })
+@JsonPropertyOrder({ "applications", "service-instances", "application-relationships" })
 public class SnapshotDetail {
 
     @Default
@@ -32,26 +30,14 @@ public class SnapshotDetail {
     @JsonProperty("application-relationships")
     private List<AppRelationship> applicationRelationships = new ArrayList<>();
 
-    @Default
-    @JsonProperty("user-accounts")
-    private Set<String> userAccounts = new HashSet<>();
-
-    @Default
-    @JsonProperty("service-accounts")
-    private Set<String> serviceAccounts = new HashSet<>();
-
     @JsonCreator
     public SnapshotDetail(
         @JsonProperty("applications") List<AppDetail> applications,
         @JsonProperty("service-instances") List<ServiceInstanceDetail> serviceInstances,
-        @JsonProperty("application-relationships") List<AppRelationship> applicationRelationships,
-        @JsonProperty("user-accounts") Set<String> userAccounts,
-        @JsonProperty("service-accounts") Set<String> serviceAccounts) {
+        @JsonProperty("application-relationships") List<AppRelationship> applicationRelationships) {
         this.applications = applications;
         this.serviceInstances = serviceInstances;
         this.applicationRelationships = applicationRelationships;
-        this.userAccounts = userAccounts;
-        this.serviceAccounts = serviceAccounts;
     }
 
 }

@@ -1,63 +1,56 @@
 package io.pivotal.cfapp.task;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
-import io.pivotal.cfapp.client.ArchivistClient;
 import io.pivotal.cfapp.repository.MetricCache;
+import io.pivotal.cfapp.service.SnapshotService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 @ConditionalOnProperty(prefix="cron", name="enabled", havingValue="true")
-public class MetricCacheRefreshTask implements ApplicationRunner {
+public class MetricCacheRefreshTask implements ApplicationListener<ApplicationEvent> {
 
-    private final ArchivistClient archivistClient;
+    private final MetricCacheReadyToBeRefreshedDecider decider;
     private final ObjectMapper mapper;
     private final MetricCache cache;
-
+    private final SnapshotService service;
 
     @Autowired
     public MetricCacheRefreshTask(
-        ArchivistClient archivistClient,
+        MetricCacheReadyToBeRefreshedDecider decider,
         ObjectMapper mapper,
-        MetricCache cache) {
-        this.archivistClient = archivistClient;
+        MetricCache cache,
+        SnapshotService service) {
+        this.decider = decider;
         this.mapper = mapper;
         this.cache = cache;
+        this.service = service;
     }
-
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        refreshCache();
+    public void onApplicationEvent(ApplicationEvent event) {
+        decider.informReadinessDecision(event);
+        if (decider.isReady()) {
+            refreshCache();
+            decider.reset();
+        }
     }
 
-    @Scheduled(cron = "${cron.collection}")
-    public void refreshCache() {
+    private void refreshCache() {
         log.info("MetricCacheRefreshTask started");
-        archivistClient
-            .getSummary()
-                .doOnNext(r -> {
-                    log.trace(mapWithException("SnapshotSummary", r));
-                    cache.setSnapshotSummary(r);
-                })
-            .then(archivistClient.getDetail())
+        service
+            .assembleSnapshotDetail()
                 .doOnNext(r -> {
                     log.trace(mapWithException("SnapshotDetail", r));
                     cache.setSnapshotDetail(r);
-                })
-            .then(archivistClient.getDemographics())
-                .doOnNext(r -> {
-                    log.trace(mapWithException("Demographics", r));
-                    cache.setDemographics(r);
                 })
             .subscribe(e -> log.info("MetricCacheRefreshTask completed"));
     }
