@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
+@Table("application_relationship")
 public class AppRelationship {
 
 	private String foundation;
