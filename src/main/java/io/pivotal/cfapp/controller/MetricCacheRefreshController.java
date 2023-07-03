@@ -11,7 +11,7 @@ import io.pivotal.cfapp.event.DatabaseCreatedEvent;
 import reactor.core.publisher.Mono;
 
 @RestController
-@ConditionalOnProperty(prefix="cron", name="enabled", havingValue="true")
+@ConditionalOnProperty(prefix="refresh", name="enabled", havingValue="true")
 public class MetricCacheRefreshController {
 
     private final ApplicationEventPublisher publisher;
