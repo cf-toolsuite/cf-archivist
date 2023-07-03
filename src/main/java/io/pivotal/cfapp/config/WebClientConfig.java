@@ -22,7 +22,7 @@ public class WebClientConfig {
 
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="true")
-    public WebClient insecureWebClient(WebClient.Builder builder, ArchivistSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
+    public WebClient insecureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
     	SslContext context = SslContextBuilder.forClient()
     		    .trustManager(InsecureTrustManagerFactory.INSTANCE)
     		    .build();
@@ -37,7 +37,7 @@ public class WebClientConfig {
 
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="false", matchIfMissing=true)
-    public WebClient secureWebClient(WebClient.Builder builder, ArchivistSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
+    public WebClient secureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
         return
             builder
                 .filter(lbFunction)
