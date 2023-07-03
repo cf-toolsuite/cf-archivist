@@ -155,6 +155,32 @@ Update the value of the `cron` properties in `application.yml`.  Consult this [a
 ./mvnw --batch-mode --update-snapshots -DskipTests -P production verify
 ```
 
+### Alternatives
+
+The below represent a collection of Maven profiles available in the Maven POM.
+
+* MySQL (mysql)
+  * adds a dependency on [r2dbc-mysql](https://github.com/asyncer-io/r2dbc-mysql)
+* Postgres (postgres)
+  * adds a dependency on [r2dbc-postrgesql](https://github.com/pgjdbc/r2dbc-postgresql)
+* Log4J2 logging (log4j2)
+  * swaps out [Logback](http://logback.qos.ch/documentation.html) logging provider for [Log4J2](https://logging.apache.org/log4j/2.x/manual/async.html) and [Disruptor](https://lmax-exchange.github.io/disruptor/user-guide/index.html#_introduction)
+
+```
+./mvnw --batch-mode --update-snapshots -DskipTests -P production verify -Drdbms=mysql
+```
+> Work with MySQL backend
+
+```
+./mvnw --batch-mode --update-snapshots -DskipTests -P production verify -Drdbms=postgres
+```
+> Work with Postgres backend
+
+```
+./mvnw --batch-mode --update-snapshots -DskipTests -P production verify -Plog4j2
+```
+> Swap out default "lossy" logging provider
+
 
 ## How to Run with Maven
 
