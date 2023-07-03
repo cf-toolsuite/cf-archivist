@@ -93,7 +93,7 @@ public class PoliciesLoader implements ApplicationListener<DatabaseCreatedEvent>
                     result -> {
                         log.info("PoliciesLoader completed");
                         log.info(
-                                String.format("-- Loaded %d application policies, %d service instance policies, %d endpoint policies, %d query policies, %d hygiene policies, %d resource notification policies, and %d legacy policies.",
+                                String.format("-- Loaded  %d query policies.",
                                         result.getQueryPolicies().size()
                                         )
                                 );

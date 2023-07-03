@@ -51,4 +51,12 @@ public class Organization {
         this.collectionDateTime = collectionDateTime;
     }
 
+    public static OrganizationBuilder from(Organization organization) {
+        return Organization
+					.builder()
+						.foundation(organization.getFoundation())
+                        .id(organization.getId())
+                        .name(organization.getName())
+                        .collectionDateTime(organization.getCollectionDateTime());
+	}
 }

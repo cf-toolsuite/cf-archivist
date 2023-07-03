@@ -1,11 +1,15 @@
 package io.pivotal.cfapp.task;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import io.pivotal.cfapp.client.ArchivistClient;
+import io.pivotal.cfapp.domain.TimeKeeper;
+import io.pivotal.cfapp.domain.TimeKeeperUtil;
 import io.pivotal.cfapp.event.SpaceUsersRetrievedEvent;
 import io.pivotal.cfapp.event.TimeKeepersRetrievedEvent;
 import io.pivotal.cfapp.service.SpaceUsersService;
@@ -30,10 +34,12 @@ public class SpaceUsersTask implements ApplicationListener<TimeKeepersRetrievedE
         this.publisher = publisher;
     }
 
-    public void collect() {
+    public void collect(Set<TimeKeeper> timeKeepers) {
         log.info("SpaceUsersTask started");
+        TimeKeeperUtil tku = new TimeKeeperUtil(timeKeepers);
         client.getSpaceUsers()
             .flatMapMany(Flux::fromIterable)
+            .map(su -> tku.enrich(su))
             .flatMap(service::save)
             .thenMany(service.findAll())
             .collectList()
@@ -51,7 +57,7 @@ public class SpaceUsersTask implements ApplicationListener<TimeKeepersRetrievedE
 
     @Override
     public void onApplicationEvent(TimeKeepersRetrievedEvent event) {
-        collect();
+        collect(event.getTimeKeepers());
     }
 
 }

@@ -81,4 +81,18 @@ public class SpaceUsers {
 		this.collectionDateTime = collectionDateTime;
 	}
 
+	public static SpaceUsersBuilder	from(SpaceUsers spaceUsers) {
+		return SpaceUsers
+				.builder()
+					.foundation(spaceUsers.getFoundation())
+					.organization(spaceUsers.getOrganization())
+					.space(spaceUsers.getSpace())
+					.auditors(spaceUsers.getAuditors())
+					.developers(spaceUsers.getDevelopers())
+					.managers(spaceUsers.getManagers())
+					.users(spaceUsers.getUsers())
+					.userCount(spaceUsers.getUserCount())
+					.collectionDateTime(spaceUsers.getCollectionDateTime());
+	}
+
 }

@@ -61,4 +61,14 @@ public class Space {
         this.collectionDateTime = collectionDateTime;
     }
 
+    public static SpaceBuilder from(Space space) {
+        return Space
+                .builder()
+                    .foundation(space.getFoundation())
+                    .organizationId(space.getOrganizationId())
+                    .organizationName(space.getOrganizationName())
+                    .spaceId(space.getSpaceId())
+                    .spaceName(space.getSpaceName())
+                    .collectionDateTime(space.getCollectionDateTime());
+    }
 }

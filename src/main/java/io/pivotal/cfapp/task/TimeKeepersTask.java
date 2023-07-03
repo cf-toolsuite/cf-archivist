@@ -1,5 +1,7 @@
 package io.pivotal.cfapp.task;
 
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
@@ -36,8 +38,7 @@ public class TimeKeepersTask implements ApplicationListener<DatabaseCreatedEvent
         client.getTimeKeepers()
             .flatMapMany(t -> Flux.fromIterable(t.getTimeKeepers()))
             .flatMap(tk -> tkService.save(tk.getFoundation(), tk.getCollectionDateTime()))
-            .thenMany(tkService.findAll())
-            .collectList()
+            .collect(Collectors.toSet())
             .subscribe(
                 result -> {
                     publisher.publishEvent(new TimeKeepersRetrievedEvent(this).timeKeepers(result));
