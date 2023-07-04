@@ -6,9 +6,8 @@ import java.util.List;
 
 import org.eclipse.jgit.lib.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +17,7 @@ import io.pivotal.cfapp.config.GitSettings;
 import io.pivotal.cfapp.domain.Policies;
 import io.pivotal.cfapp.domain.PoliciesValidator;
 import io.pivotal.cfapp.domain.QueryPolicy;
+import io.pivotal.cfapp.event.DatabaseCreatedEvent;
 import io.pivotal.cfapp.service.PoliciesService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnProperty(
     prefix = "cf.policies.git", name = "uri"
 )
-public class PoliciesLoader implements ApplicationRunner {
+public class PoliciesLoader implements ApplicationListener<DatabaseCreatedEvent> {
 
     private static final String QUERY_POLICY_SUFFIX = "-QP.json";
 
@@ -108,7 +108,8 @@ public class PoliciesLoader implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void onApplicationEvent(DatabaseCreatedEvent event) {
         load();
     }
+
 }
