@@ -4,7 +4,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.pivotal.cfapp.domain.TimeKeepers;
-import io.pivotal.cfapp.event.MetricCacheRefreshedEvent;
 import io.pivotal.cfapp.repository.MetricCache;
 import io.pivotal.cfapp.service.SnapshotService;
 import io.pivotal.cfapp.service.TimeKeeperService;
@@ -27,7 +25,6 @@ public class MetricCacheRefreshTask implements ApplicationListener<ApplicationEv
     private final MetricCache cache;
     private final SnapshotService snapshotService;
     private final TimeKeeperService tkService;
-    private ApplicationEventPublisher publisher;
 
     @Autowired
     public MetricCacheRefreshTask(
@@ -35,14 +32,12 @@ public class MetricCacheRefreshTask implements ApplicationListener<ApplicationEv
         ObjectMapper mapper,
         MetricCache cache,
         SnapshotService snapshotService,
-        TimeKeeperService tkService,
-        ApplicationEventPublisher publisher) {
+        TimeKeeperService tkService) {
         this.decider = decider;
         this.mapper = mapper;
         this.cache = cache;
         this.snapshotService = snapshotService;
         this.tkService = tkService;
-        this.publisher = publisher;
     }
 
     @Override
@@ -75,7 +70,6 @@ public class MetricCacheRefreshTask implements ApplicationListener<ApplicationEv
             )
             .subscribe(
                 result -> {
-                    publisher.publishEvent(new MetricCacheRefreshedEvent(this));
                     log.info("MetricCacheRefreshTask completed");
                 },
                 error -> {
