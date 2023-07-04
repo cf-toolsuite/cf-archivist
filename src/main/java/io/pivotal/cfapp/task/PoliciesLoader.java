@@ -24,8 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @ConditionalOnProperty(
-        prefix = "cf.policies.git", name = "uri"
-        )
+    prefix = "cf.policies.git", name = "uri"
+)
 public class PoliciesLoader implements ApplicationListener<MetricCacheRefreshedEvent> {
 
     private static final String QUERY_POLICY_SUFFIX = "-QP.json";

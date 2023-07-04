@@ -5,6 +5,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;
+import org.springframework.context.annotation.Configuration;
 
 import lombok.Builder;
 import lombok.Builder.Default;
@@ -12,6 +13,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
+@Configuration
 @ConfigurationProperties(prefix = "cf.policies.git")
 public class GitSettings {
 
@@ -48,5 +50,4 @@ public class GitSettings {
             this.commit = commit;
             this.filePaths = filePaths;
     }
-
 }

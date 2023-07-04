@@ -29,8 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @ConditionalOnProperty(
-        prefix = "cf.policies.git", name = "uri"
-        )
+    prefix = "cf.policies.git", name = "uri"
+)
 public class GitClient {
 
     // @see https://stackoverflow.com/questions/42820282/get-the-latest-commit-in-a-repository-with-jgit

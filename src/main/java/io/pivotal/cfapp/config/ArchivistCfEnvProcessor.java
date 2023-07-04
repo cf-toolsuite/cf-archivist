@@ -31,7 +31,7 @@ public class ArchivistCfEnvProcessor implements CfEnvProcessor {
     @Override
     public CfEnvProcessorProperties getProperties() {
         return
-                CfEnvProcessorProperties
+            CfEnvProcessorProperties
                 .builder()
                 .serviceName(SERVICE_NAME)
                 .build();
@@ -57,7 +57,7 @@ public class ArchivistCfEnvProcessor implements CfEnvProcessor {
         addOrUpdatePropertyValue("cf.policies.git.commit", "CF_POLICIES_GIT_COMMIT", cfCredentials, properties);
         addOrUpdatePropertyValue("cf.policies.git.filePaths", "CF_POLICIES_GIT_FILE-PATHS", cfCredentials, properties);
         addOrUpdatePropertyValue("cron.collection", "CRON_COLLECTION", cfCredentials, properties);
-        addOrUpdatePropertyValue("cron.collection", "CRON_EXECUTION", cfCredentials, properties);
+        addOrUpdatePropertyValue("cron.execution", "CRON_EXECUTION", cfCredentials, properties);
         addOrUpdatePropertyValue("management.endpoints.web.exposure.include", "EXPOSED_ACTUATOR_ENDPOINTS", cfCredentials, properties);
     }
 }
