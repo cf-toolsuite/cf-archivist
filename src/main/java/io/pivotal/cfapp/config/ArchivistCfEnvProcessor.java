@@ -25,7 +25,7 @@ public class ArchivistCfEnvProcessor implements CfEnvProcessor {
     @Override
     public boolean accept(CfService service) {
         return
-                service.getName().equalsIgnoreCase(SERVICE_NAME);
+            service.getName().equalsIgnoreCase(SERVICE_NAME);
     }
 
     @Override

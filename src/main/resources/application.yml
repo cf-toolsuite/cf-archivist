@@ -14,6 +14,39 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false
+  main:
+    allow-bean-definition-overriding: true
+  r2dbc:
+    url: r2dbc:pool:h2:mem:///cf-archivist?options=DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=true
+    name: cf-archivist
+    username: sa
+    password: 
+  ## Disable org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration
+  ## It curently interferes with startup login in Cloud Foundry operational context when either a MySQL or Postgres service instance is bound to application
+  sql:
+    init:
+      enabled: false
+
+# Java Mail
+# Reset the values for spring.mail.username, spring.mail.password
+# Configuration below is set up to work w/ a Gmail account
+# @see http://www.baeldung.com/spring-email
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: replace_me
+    password: replace_me
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# SendGrid API key (alternative to username/password).
+  sendgrid:
+    api-key: replace_me
 
 eureka:
   client:

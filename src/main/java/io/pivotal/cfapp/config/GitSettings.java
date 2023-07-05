@@ -4,12 +4,10 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 import lombok.Data;
 
 @Data
-@Configuration
 @ConfigurationProperties(prefix = "cf.policies.git")
 public class GitSettings {
 
