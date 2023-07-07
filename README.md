@@ -1,6 +1,6 @@
 # VMware Tanzu Application Service > Archivist
 
-[![Beta](https://img.shields.io/badge/Release-GA-darkgreen)](https://img.shields.io/badge/Release-GA-darkgreen) ![Github Action CI Workflow Status](https://github.com/pacphi/cf-archivist/actions/workflows/maven.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/pacphi/cf-archivist/badge.svg?style=plastic)](https://snyk.io/test/github/pacphi/cf-archivist) [![Release](https://jitpack.io/v/pacphi/cf-archivist.svg)](https://jitpack.io/#pacphi/cf-archivist/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Alpha](https://img.shields.io/badge/Release-Alpha-orange)](https://img.shields.io/badge/Release-Alpha-orange) ![Github Action CI Workflow Status](https://github.com/pacphi/cf-archivist/actions/workflows/maven.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/pacphi/cf-archivist/badge.svg?style=plastic)](https://snyk.io/test/github/pacphi/cf-archivist) [![Release](https://jitpack.io/v/pacphi/cf-archivist.svg)](https://jitpack.io/#pacphi/cf-archivist/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
 You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/cf-hoover) deployed. It's happily aggregating usage data from multiple foundations. But now you want retain snapshot data across foundations spanning multiple collection intervals.
