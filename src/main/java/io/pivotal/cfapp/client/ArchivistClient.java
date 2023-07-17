@@ -53,7 +53,7 @@ public class ArchivistClient {
                     .onErrorResume(
                         WebClientResponseException.class,
                         e -> {
-                            log.warn("Could not obtain organizations from {}", uri);
+                            log.warn(String.format("Could not obtain organizations from %s", uri), e);
                             return Mono.empty();
                         }
                     );
@@ -76,7 +76,7 @@ public class ArchivistClient {
                     .onErrorResume(
                         WebClientResponseException.class,
                         e -> {
-                            log.warn("Could not obtain organizations from {}", uri);
+                            log.warn(String.format("Could not obtain organizations from %s", uri), e);
                             return Mono.empty();
                         }
                     );
@@ -113,7 +113,7 @@ public class ArchivistClient {
                     .onErrorResume(
                         WebClientResponseException.class,
                         e -> {
-                            log.warn("Could not obtain SpaceUsers from {}", uri);
+                            log.warn(String.format("Could not obtain SpaceUsers from %s", uri), e);
                             return Mono.just(List.of(SpaceUsers.builder().build()));
                         }
                     );
