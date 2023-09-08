@@ -2,8 +2,7 @@
 applications:
 - name: cf-archivist
   memory: 2G
-  random-route: true
-  stack: cflinuxfs3
+  stack: cflinuxfs4
   path: target/cf-archivist-1.0-SNAPSHOT.jar
   instances: 1
   env:

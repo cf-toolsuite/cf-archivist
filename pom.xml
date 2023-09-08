@@ -71,7 +71,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>24.1.5</vaadin.version>
+		<vaadin.version>24.1.4</vaadin.version>
 		<lombok.version>1.18.28</lombok.version>
 	</properties>
 
@@ -99,7 +99,7 @@
 		<dependency>
 			<groupId>io.pivotal.cfenv</groupId>
 			<artifactId>java-cfenv-boot</artifactId>
-			<version>3.0.0</version>
+			<version>2.4.2</version>
     	</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -183,7 +183,7 @@
 		<dependency>
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
-			<version>3.1.8</version>
+			<version>3.1.7</version>
 		</dependency>
 
 		<dependency>
@@ -485,6 +485,24 @@
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>3.4.2</version>
 			</plugin>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.7.3.4</version>
+				<configuration>
+				<xmlOutput>true</xmlOutput>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.21.0</version>
+				<configuration>
+				<includeTests>true</includeTests>
+				<failOnViolation>false</failOnViolation>
+				<skipEmptyReport>false</skipEmptyReport>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -674,7 +692,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.7.3.3</version>
+				<version>4.7.3.4</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
