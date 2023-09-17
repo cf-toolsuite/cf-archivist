@@ -17,6 +17,7 @@ There's also a basic user-interface that let's you filter and review detail snap
   * [How to configure](#how-to-configure)
   * [How to Build](#how-to-build)
   * [How to Run with Maven](#how-to-run-with-maven)
+  * [How to check code quality with Sonarqube](#how-to-check-code-quality-with-sonarqube)
   * [How to deploy to VMware Tanzu Application Service](#how-to-deploy-to-vmware-tanzu-application-service)
     * [using scripts](#using-scripts)
 
@@ -197,6 +198,25 @@ Then:
 where `{target_foundation_profile}` is something like `pws` or `pcfone`
 
 > You'll need to manually stop to the application with `Ctrl+C`
+
+
+## How to check code quality with Sonarqube
+
+Launch an instance of Sonarqube on your workstation with Docker
+
+```
+docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube
+```
+
+Then make sure to add goal and required arguments when building with Maven. For example:
+
+```
+mvn clean package sonar:sonar -Dsonar.token=cf-archivist -Dsonar.login=admin -Dsonar.password=admin
+```
+
+Then visit `http://localhost:9000` in your favorite browser to inspect results of scan.
+
+
 
 
 ## How to deploy to VMware Tanzu Application Service
