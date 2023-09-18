@@ -8,13 +8,19 @@
 set -e
 
 export APP_NAME=cf-archivist
-export REGISTRY_NAME=hooverRegistry
 
 
 cf push --no-start
 cf create-service credhub default $APP_NAME-secrets -c config/secrets.json
-cf bind-service $APP_NAME $APP_NAME-secrets
 cf create-service p.mysql db-small $APP_NAME-backend
+while [[ $(cf service $APP_NAME-secrets) != *"succeeded"* ]]; do
+    echo "$APP_NAME-secrets is not ready yet..."
+    sleep 5s
+done
+cf bind-service $APP_NAME $APP_NAME-secrets
+while [[ $(cf service $APP_NAME-backend) != *"succeeded"* ]]; do
+    echo "$APP_NAME-backend is not ready yet..."
+    sleep 5s
+done
 cf bind-service $APP_NAME $APP_NAME-backend
-cf bind-service $APP_NAME $REGISTRY_NAME
 cf start $APP_NAME
