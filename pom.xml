@@ -137,7 +137,7 @@
 			<groupId>io.pivotal.cfenv</groupId>
 			<artifactId>java-cfenv-boot</artifactId>
 			<version>3.1.0</version>
-    	</dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
@@ -175,7 +175,7 @@
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
-		<version>6.7.0.202309050840-r</version>
+			<version>6.7.0.202309050840-r</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sanctionco.jmail</groupId>
@@ -393,6 +393,13 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.graalvm.buildtools</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+				<configuration>
+					<buildArgs>-H:IncludeResources=".*/schema.*ddl$" -H:IncludeResources=".*/email-template.*html$" -H:IncludeResources=".*/frontend/*$" -H:Log=registerResource:4</buildArgs>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
 				<version>4.9.10</version>
@@ -539,8 +546,8 @@
 					<image>
 						<builder>paketobuildpacks/builder-jammy-tiny</builder>
 						<env>
-						<BP_JVM_VERSION>21.0.0</BP_JVM_VERSION>
-						<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+							<BP_JVM_VERSION>21.0.0</BP_JVM_VERSION>
+							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
 						</env>
 					</image>
 					<!-- Clean build and startup time for Vaadin apps sometimes may exceed the default Spring Boot's 30sec timeout. -->
@@ -607,6 +614,28 @@
 					<includeTests>true</includeTests>
 					<failOnViolation>false</failOnViolation>
 					<skipEmptyReport>false</skipEmptyReport>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<breakiterator>true</breakiterator>
+					<header>${project.name}</header>
+					<source>${source.level}</source>
+					<quiet>true</quiet>
+					<javadocDirectory>${shared.resources}/javadoc</javadocDirectory>
+					<overview>${shared.resources}/javadoc/overview.html</overview>
+					<stylesheetfile>${shared.resources}/javadoc/spring-javadoc.css</stylesheetfile>
+					<!-- copies doc-files subdirectory which contains image resources -->
+					<docfilessubdirs>true</docfilessubdirs>
+					<additionalparam>-Xdoclint:none</additionalparam>
+					<sourcepath>target/generated-sources/delombok</sourcepath>
+					<links>
+						<link>https://docs.spring.io/spring/docs/5.0.x/javadoc-api/</link>
+						<link>https://docs.spring.io/spring-data/commons/docs/current/api/</link>
+						<link>https://docs.oracle.com/javase/${java.version}/docs/api/</link>
+					</links>
 				</configuration>
 			</plugin>
 		</plugins>
