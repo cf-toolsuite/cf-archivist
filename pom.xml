@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.pivotal</groupId>
@@ -52,7 +52,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.5</version>
+		<version>3.2.0</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -67,15 +67,14 @@
 	<properties>
 		<java.version>17</java.version>
 		<commons-lang3.version>3.13.0</commons-lang3.version>
-		<jackson.version>2.15.2</jackson.version>
-		<mockito.version>5.5.0</mockito.version>
-		<netty.version>4.1.99.Final</netty.version>
+		<jackson.version>2.16.0</jackson.version>
+		<mockito.version>5.8.0</mockito.version>
 		<snakeyaml.version>2.2</snakeyaml.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>24.2.5</vaadin.version>
+		<vaadin.version>24.3.0</vaadin.version>
 		<lombok.version>1.18.30</lombok.version>
 	</properties>
 
@@ -96,12 +95,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.15.3</version>
+			<version>2.16.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.15.3</version>
+			<version>2.16.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.pivotal.cfenv</groupId>
@@ -111,7 +110,7 @@
 		<dependency>
 			<groupId>com.cedarsoftware</groupId>
 			<artifactId>json-io</artifactId>
-			<version>4.17.0</version>
+			<version>4.19.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -165,12 +164,12 @@
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
-			<version>6.7.0.202309050840-r</version>
+			<version>6.8.0.202311291450-r</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sanctionco.jmail</groupId>
 			<artifactId>jmail</artifactId>
-			<version>1.6.1</version>
+			<version>1.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -179,7 +178,7 @@
 		<dependency>
 			<groupId>com.sendgrid</groupId>
 			<artifactId>sendgrid-java</artifactId>
-			<version>4.10.1</version>
+			<version>4.9.3</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
@@ -270,14 +269,14 @@
 			<dependency>
 				<groupId>io.pivotal.spring.cloud</groupId>
 				<artifactId>spring-cloud-services-dependencies</artifactId>
-				<version>4.0.3</version>
+				<version>4.1.0</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2022.0.4</version>
+				<version>2023.0.0</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -468,27 +467,25 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-				<version>4.9.10</version>
-				<configuration>
-					<failOnNoGitDirectory>false</failOnNoGitDirectory>
-				</configuration>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<version>7.0.0</version>
 				<executions>
 					<execution>
 						<id>get-the-git-infos</id>
 						<goals>
 							<goal>revision</goal>
 						</goals>
-					</execution>
-					<execution>
-						<id>validate-the-git-infos</id>
-						<goals>
-							<goal>validateRevision</goal>
-						</goals>
-						<phase>package</phase>
+						<phase>initialize</phase>
 					</execution>
 				</executions>
+				<configuration>
+					<!-- this is false by default, forces the plugin to generate the git.properties file -->
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<!-- The path for the properties file to be generated. See Super Pom for default variable reference https://maven.apache.org/guides/introduction/introduction-to-the-pom.html -->
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<commitIdGenerationMode>full</commitIdGenerationMode>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -498,7 +495,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.15.0</version>
+				<version>2.16.2</version>
 				<configuration>
 					<generateBackupPoms>false</generateBackupPoms>
 				</configuration>
@@ -609,7 +606,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.1.5</version>
+				<version>3.2.0</version>
 				<configuration>
 					<image>
 						<builder>paketobuildpacks/builder-jammy-tiny</builder>
@@ -659,7 +656,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>4.0.0-M11</version>
+				<version>4.0.0-M12</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -669,7 +666,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.7.3.6</version>
+				<version>4.8.2.0</version>
 				<configuration>
 					<xmlOutput>true</xmlOutput>
 				</configuration>
@@ -722,7 +719,7 @@
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>3.1.5</version>
+						<version>3.2.0</version>
 						<configuration>
 							<jvmArguments>-Dvaadin.productionMode</jvmArguments>
 						</configuration>
@@ -750,7 +747,7 @@
 				<dependency>
 					<groupId>com.wavefront</groupId>
 					<artifactId>wavefront-spring-boot-starter</artifactId>
-					<version>3.0.1</version>
+					<version>3.0.2</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -819,7 +816,7 @@
 				<dependency>
 					<groupId>io.asyncer</groupId>
 					<artifactId>r2dbc-mysql</artifactId>
-					<version>1.0.1</version>
+					<version>1.0.5</version>
 					<scope>runtime</scope>
 				</dependency>
 				<dependency>
@@ -865,7 +862,7 @@
 				<dependency>
 					<groupId>com.lmax</groupId>
 					<artifactId>disruptor</artifactId>
-					<version>4.0.0</version>
+					<version>3.4.4</version>
 					<scope>runtime</scope>
 				</dependency>
 			</dependencies>
@@ -889,12 +886,12 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.7.3.6</version>
+				<version>4.8.2.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.15.0</version>
+				<version>2.16.2</version>
 				<reportSets>
 					<reportSet>
 						<reports>
