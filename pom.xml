@@ -67,15 +67,15 @@
 	<properties>
 		<java.version>17</java.version>
 		<commons-lang3.version>3.14.0</commons-lang3.version>
-		<jackson.version>2.16.1</jackson.version>
+		<jackson-bom.version>2.16.1</jackson-bom.version>
 		<logback.version>1.4.14</logback.version>
-		<mockito.version>5.9.0</mockito.version>
+		<mockito.version>5.10.0</mockito.version>
 		<snakeyaml.version>2.2</snakeyaml.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>24.3.3</vaadin.version>
+		<vaadin.version>24.3.5</vaadin.version>
 		<lombok.version>1.18.30</lombok.version>
 	</properties>
 
@@ -179,7 +179,7 @@
 		<dependency>
 			<groupId>com.sendgrid</groupId>
 			<artifactId>sendgrid-java</artifactId>
-			<version>4.10.1</version>
+			<version>4.10.2</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
@@ -239,7 +239,7 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.25.1</version>
+			<version>3.25.3</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -667,7 +667,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.8.3.0</version>
+				<version>4.8.3.1</version>
 				<configuration>
 					<xmlOutput>true</xmlOutput>
 				</configuration>
@@ -748,7 +748,7 @@
 				<dependency>
 					<groupId>com.wavefront</groupId>
 					<artifactId>wavefront-spring-boot-starter</artifactId>
-					<version>3.0.2</version>
+					<version>3.2.0</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -887,7 +887,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.8.3.0</version>
+				<version>4.8.3.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
