@@ -69,13 +69,13 @@
 		<commons-lang3.version>3.14.0</commons-lang3.version>
 		<jackson-bom.version>2.16.1</jackson-bom.version>
 		<logback.version>1.4.14</logback.version>
-		<mockito.version>5.10.0</mockito.version>
+		<mockito.version>5.11.0</mockito.version>
 		<snakeyaml.version>2.2</snakeyaml.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>24.3.5</vaadin.version>
+		<vaadin.version>24.3.6</vaadin.version>
 		<lombok.version>1.18.30</lombok.version>
 	</properties>
 
@@ -126,7 +126,7 @@
 		<dependency>
 			<groupId>com.fasterxml.uuid</groupId>
 			<artifactId>java-uuid-generator</artifactId>
-			<version>4.3.0</version>
+			<version>5.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -470,7 +470,7 @@
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
 				<artifactId>git-commit-id-maven-plugin</artifactId>
-				<version>7.0.0</version>
+				<version>8.0.0</version>
 				<executions>
 					<execution>
 						<id>get-the-git-infos</id>
@@ -817,7 +817,7 @@
 				<dependency>
 					<groupId>io.asyncer</groupId>
 					<artifactId>r2dbc-mysql</artifactId>
-					<version>1.1.1</version>
+					<version>1.1.2</version>
 					<scope>runtime</scope>
 				</dependency>
 				<dependency>
