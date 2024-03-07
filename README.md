@@ -1,9 +1,9 @@
 # VMware Tanzu Application Service > Archivist
 
-[![Alpha](https://img.shields.io/badge/Release-Alpha-orange)](https://img.shields.io/badge/Release-Alpha-orange) ![Github Action CI Workflow Status](https://github.com/pacphi/cf-archivist/actions/workflows/maven.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/pacphi/cf-archivist/badge.svg?style=plastic)](https://snyk.io/test/github/pacphi/cf-archivist) [![Release](https://jitpack.io/v/pacphi/cf-archivist.svg)](https://jitpack.io/#pacphi/cf-archivist/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Alpha](https://img.shields.io/badge/Release-Alpha-orange)](https://img.shields.io/badge/Release-Alpha-orange) ![Github Action CI Workflow Status](https://github.com/cf-toolsuite/cf-archivist/actions/workflows/maven.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/cf-toolsuite/cf-archivist/badge.svg?style=plastic)](https://snyk.io/test/github/cf-toolsuite/cf-archivist) [![Release](https://jitpack.io/v/cf-toolsuite/cf-archivist.svg)](https://jitpack.io/#cf-toolsuite/cf-archivist/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
-You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/cf-hoover) deployed. It's happily aggregating usage data from multiple foundations. But now you want retain snapshot data across foundations spanning multiple collection intervals.
+You're a platform operator and you've managed to get [cf-hoover](https://github.com/cf-toolsuite/cf-hoover) deployed. It's happily aggregating usage data from multiple foundations. But now you want retain snapshot data across foundations spanning multiple collection intervals.
 
 `cf-archivist` closes this gap by allowing you to collect and persist snapshots in a time-series based schema.  You may also define and manage query policies in a Git repo, then schedule execution of one, many or all of them, capture the results as email attachments, and finally send these to designated recipients.
 
@@ -25,7 +25,7 @@ There's also a basic user-interface that let's you filter and review detail snap
 
 Required
 
-* [cf-hoover](https://github.com/pacphi/cf-hoover)
+* [cf-hoover](https://github.com/cf-toolsuite/cf-hoover)
 * [VMware Tanzu Application Service](https://pivotal.io/platform/pivotal-application-service) 2.11 or better
 * [Spring Cloud Services, Service Registry](https://docs.pivotal.io/spring-cloud-services/3-1/common/service-registry/index.html) 3.1.x or better
 
@@ -40,7 +40,7 @@ Required
 ## Clone
 
 ```
-git clone https://github.com/pacphi/cf-archivist.git
+git clone https://github.com/cf-toolsuite/cf-archivist.git
 ```
 
 
@@ -109,7 +109,7 @@ one or both are used to authenticate.  In the case where you may have configured
 
 #### Query policies
 
-Query policies are useful when you want to step out side the canned snapshot reporting capabilities and leverage the underlying [schema](https://github.com/pacphi/cf-archivist/tree/master/src/main/resources/db) to author one or more of your own queries and have the results delivered as comma-separated value attachments using a defined email notification [template](https://github.com/pacphi/cf-archivist/blob/master/src/main/java/io/pivotal/cfapp/domain/EmailNotificationTemplate.java).
+Query policies are useful when you want to step out side the canned snapshot reporting capabilities and leverage the underlying [schema](https://github.com/cf-toolsuite/cf-archivist/tree/master/src/main/resources/db) to author one or more of your own queries and have the results delivered as comma-separated value attachments using a defined email notification [template](https://github.com/cf-toolsuite/cf-archivist/blob/master/src/main/java/io/pivotal/cfapp/domain/EmailNotificationTemplate.java).
 
 As mentioned previously the policy file must adhere to a naming convention
 
@@ -134,7 +134,7 @@ secrets-{env}.json
 
 > Replace `<engine>` above with one of either `java-mail`, or `sendgrid`
 
-Furthermore, you will need to define additional properties depending on which engine you chose.  Checkout [application.yml](https://github.com/pacphi/cf-archivist/blob/master/src/main/resources/application.yml) to get to know what they are.
+Furthermore, you will need to define additional properties depending on which engine you chose.  Checkout [application.yml](https://github.com/cf-toolsuite/cf-archivist/blob/master/src/main/resources/application.yml) to get to know what they are.
 
 E.g, if you intended to use [sendgrid](https://www.sendgrid.com) as your email notification engine then your secrets-{env}.yml might contain
 
@@ -198,7 +198,7 @@ The below represent a collection of Maven profiles available in the Maven POM.
 If you intend to run `cf-archivist` in a local development environment, you must first:
 
 * Launch a standalone instance of [Eureka server](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-eureka-server.html)
-* Launch an instance of [cf-hoover](https://github.com/pacphi/cf-hoover#how-to-run-with-gradle)
+* Launch an instance of [cf-hoover](https://github.com/cf-toolsuite/cf-hoover#how-to-run-with-gradle)
 
 Then:
 

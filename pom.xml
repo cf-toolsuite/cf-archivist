@@ -11,9 +11,9 @@
 	<description>A dashboard for displaying/filtering time-stamped snapshots over successive pulls from a cf-hoover instance.</description>
 
 	<scm>
-		<connection>scm:git:git://github.com/pacphi/cf-archivist.git</connection>
-		<developerConnection>scm:git:ssh://github.com/pacphi/cf-archivist.git</developerConnection>
-		<url>https://github.com/pacphi/cf-archivist</url>
+		<connection>scm:git:git://github.com/cf-toolsuite/cf-archivist.git</connection>
+		<developerConnection>scm:git:ssh://github.com/cf-toolsuite/cf-archivist.git</developerConnection>
+		<url>https://github.com/cf-toolsuite/cf-archivist</url>
 	</scm>
 
 	<developers>
@@ -35,24 +35,24 @@
 		<site>
 			<id>github</id>
 			<name>Deployment through Maven's SCM Publish Plugin</name>
-			<url>scm:git:git@github.com:pacphi/cf-archivist.git</url>
+			<url>scm:git:git@github.com:cf-toolsuite/cf-archivist.git</url>
 		</site>
 		<repository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/pacphi/cf-archivist</url>
+			<url>https://maven.pkg.github.com/cf-toolsuite/cf-archivist</url>
 		</repository>
 	</distributionManagement>
 
 	<issueManagement>
-		<url>https://github.com/pacphi/cf-archivist/issues</url>
+		<url>https://github.com/cf-toolsuite/cf-archivist/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.2</version>
+		<version>3.2.3</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -607,7 +607,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.2.2</version>
+				<version>3.2.3</version>
 				<configuration>
 					<image>
 						<builder>paketobuildpacks/builder-jammy-tiny</builder>
@@ -720,7 +720,7 @@
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>3.2.2</version>
+						<version>3.2.3</version>
 						<configuration>
 							<jvmArguments>-Dvaadin.productionMode</jvmArguments>
 						</configuration>
