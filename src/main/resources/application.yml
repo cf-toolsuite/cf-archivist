@@ -62,6 +62,17 @@ cron:
   execution: "0 30 5 * * MON"
 
 management:
+  info:
+    build:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: full
+    java:
+      enabled: true
+    os:
+      enabled: true
   endpoints:
     web:
       exposure:
@@ -69,9 +80,6 @@ management:
   endpoint:
     health:
       show-details: always
-  info:
-    git:
-      mode: full
 
 ---
 spring:
