@@ -27,7 +27,7 @@ public class ArchivistClient {
         this.client = client;
     }
 
-    @CircuitBreaker(name = "hooverClient.timeKeepers", fallbackMethod = "fallbackForTimeKeepers")
+    @CircuitBreaker(name = "archivistClient.timeKeepers", fallbackMethod = "fallbackForTimeKeepers")
     public Mono<TimeKeepers> getTimeKeepers() {
         return client
                 .get()
@@ -41,7 +41,7 @@ public class ArchivistClient {
         return Mono.just(TimeKeepers.builder().build());
     }
 
-    @CircuitBreaker(name = "hooverClient.organizations", fallbackMethod = "fallbackForOrganizations")
+    @CircuitBreaker(name = "archivistClient.organizations", fallbackMethod = "fallbackForOrganizations")
     public Mono<List<Organization>> getOrganizations() {
         String uri = "/snapshot/organizations";
         return client
@@ -64,7 +64,7 @@ public class ArchivistClient {
         return Mono.just(List.of(Space.builder().build()));
     }
 
-    @CircuitBreaker(name = "hooverClient.spaces", fallbackMethod = "fallbackForSpaces")
+    @CircuitBreaker(name = "archivistClient.spaces", fallbackMethod = "fallbackForSpaces")
     public Mono<List<Space>> getSpaces() {
         String uri = "/snapshot/spaces";
         return client
@@ -87,7 +87,7 @@ public class ArchivistClient {
         return Mono.just(List.of(Space.builder().build()));
     }
 
-    @CircuitBreaker(name = "hooverClient.detail", fallbackMethod = "fallbackForDetail")
+    @CircuitBreaker(name = "archivistClient.detail", fallbackMethod = "fallbackForDetail")
     public Mono<SnapshotDetail> getDetail() {
         return client
                 .get()
@@ -101,7 +101,7 @@ public class ArchivistClient {
         return Mono.just(SnapshotDetail.builder().build());
     }
 
-    @CircuitBreaker(name = "hooverClient.spaceUsers", fallbackMethod = "fallbackForSpaceUsers")
+    @CircuitBreaker(name = "archivistClient.spaceUsers", fallbackMethod = "fallbackForSpaceUsers")
     public Mono<List<SpaceUsers>> getSpaceUsers() {
         String uri = "/snapshot/spaces/users";
         return client

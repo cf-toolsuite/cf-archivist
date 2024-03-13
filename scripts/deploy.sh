@@ -16,6 +16,7 @@ case "$1" in
 	  sleep 5s
     done
 	cf bind-service $APP_NAME $APP_NAME-secrets
+	cf bind-service $APP_NAME hooverRegistry
 	cf start $APP_NAME
 	;;
 
@@ -27,6 +28,7 @@ case "$1" in
 	  sleep 5s
     done
 	cf bind-service $APP_NAME $APP_NAME-secrets
+	cf bind-service $APP_NAME hooverRegistry
 	cf start $APP_NAME
 	;;
 

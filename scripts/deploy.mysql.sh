@@ -23,4 +23,5 @@ while [[ $(cf service $APP_NAME-backend) != *"succeeded"* ]]; do
     sleep 5s
 done
 cf bind-service $APP_NAME $APP_NAME-backend
+cf bind-service $APP_NAME hooverRegistry
 cf start $APP_NAME

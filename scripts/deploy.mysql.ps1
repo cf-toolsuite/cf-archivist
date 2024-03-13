@@ -29,6 +29,7 @@ switch ($Provider) {
 			Start-Sleep -Seconds 5
 		}
         cf bind-service $AppName $AppName-backend
+		cf bind-service $AppName hooverRegistry
 		cf start $AppName
 	}
 
@@ -46,6 +47,7 @@ switch ($Provider) {
 			Start-Sleep -Seconds 5
 		}
         cf bind-service $AppName $AppName-backend
+		cf bind-service $AppName hooverRegistry
 		cf start $AppName
 	}
 
