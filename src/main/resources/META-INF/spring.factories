@@ -1,1 +1,1 @@
-io.pivotal.cfenv.spring.boot.CfEnvProcessor=io.pivotal.cfapp.config.ArchivistCfEnvProcessor
+io.pivotal.cfenv.spring.boot.CfEnvProcessor=org.cftoolsuite.cfapp.config.ArchivistCfEnvProcessor
