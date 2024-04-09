@@ -10,11 +10,13 @@ case "$1" in
 
 	--with-credhub | -c)
 	cf push --no-start
-	cf create-service credhub default $APP_NAME-secrets -c config/secrets.json
-	while [[ $(cf service $APP_NAME-secrets) != *"succeeded"* ]]; do
-      echo "$APP_NAME-secrets is not ready yet..."
-	  sleep 5s
-    done
+	if ! cf service $APP_NAME-secrets > /dev/null; then
+		cf create-service credhub default $APP_NAME-secrets -c config/secrets.json
+		while [[ $(cf service $APP_NAME-secrets) != *"succeeded"* ]]; do
+			echo "$APP_NAME-secrets is not ready yet..."
+			sleep 5
+		done
+	fi
 	cf bind-service $APP_NAME $APP_NAME-secrets
 	cf bind-service $APP_NAME hooverRegistry
 	cf start $APP_NAME
@@ -22,11 +24,13 @@ case "$1" in
 
 	_ | *)
 	cf push --no-start
-	cf create-user-provided-service $APP_NAME-secrets -p config/secrets.json
-	while [[ $(cf service $APP_NAME-secrets) != *"succeeded"* ]]; do
-      echo "$APP_NAME-secrets is not ready yet..."
-	  sleep 5s
-    done
+	if ! cf service $APP_NAME-secrets > /dev/null; then
+		cf create-user-provided-service $APP_NAME-secrets -p config/secrets.json
+		while [[ $(cf service $APP_NAME-secrets) != *"succeeded"* ]]; do
+			echo "$APP_NAME-secrets is not ready yet..."
+			sleep 5
+		done
+	fi
 	cf bind-service $APP_NAME $APP_NAME-secrets
 	cf bind-service $APP_NAME hooverRegistry
 	cf start $APP_NAME
