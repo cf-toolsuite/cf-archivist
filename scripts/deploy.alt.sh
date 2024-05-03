@@ -3,6 +3,7 @@
 set -e
 
 export APP_NAME=cf-archivist
+export REGISTRY_NAME=hooverRegistry
 
 if [ -z "$1" ] && [ -z "$2" ]; then
   echo "Usage: deploy.alt.sh {credential_store_provider_option} {path_to_secrets_file} {additional-cf-push-options}"
@@ -44,6 +45,7 @@ case "$1" in
     done
   fi
   cf bind-service $APP_NAME $APP_NAME-secrets
+  cf bind-service $APP_NAME $REGISTRY_NAME
   cf start $APP_NAME
   ;;
 

@@ -3,7 +3,7 @@
 set -e
 
 export APP_NAME=cf-archivist
-
+export REGISTRY_NAME=hooverRegistry
 
 
 case "$1" in
@@ -32,7 +32,7 @@ case "$1" in
 		done
 	fi
 	cf bind-service $APP_NAME $APP_NAME-secrets
-	cf bind-service $APP_NAME hooverRegistry
+	cf bind-service $APP_NAME $REGISTRY_NAME
 	cf start $APP_NAME
 	;;
 

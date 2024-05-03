@@ -22,7 +22,9 @@ import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.NumberRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,8 @@ import org.cftoolsuite.cfapp.ui.MainLayout;
 import org.cftoolsuite.cfapp.ui.component.GridTile;
 
 @Route(value = NAV, layout = MainLayout.class)
+@PageTitle("cf-archivist » Snapshot » Detail » AI")
+@AnonymousAllowed
 public class SnapshotApplicationDetailView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

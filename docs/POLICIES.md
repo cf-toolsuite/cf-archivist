@@ -1,6 +1,6 @@
 # VMware Tanzu Application Service > Archivist
 
-### Managing policies
+## Managing policies
 
 Creation and deletion of policies are managed via API endpoints by default. When an audit trail is important to you, you may opt to set `cf.policies.git.uri` -- this property specifies the location of the repository that contains policy files in JSON format.
 
@@ -17,7 +17,7 @@ If you want to work with a private repository, then you will have to specify
 
 one or both are used to authenticate.  In the case where you may have configured a personal access token, set `cf.policies.git.username` equal to the value of the token.
 
-#### Query policies
+### Query policies
 
 Query policies are useful when you want to step out side the canned snapshot reporting capabilities and leverage the underlying [schema](https://github.com/cf-toolsuite/cf-archivist/tree/master/src/main/resources/db) to author one or more of your own queries and have the results delivered as comma-separated value attachments using a defined email notification [template](https://github.com/cf-toolsuite/cf-archivist/blob/master/src/main/java/io/pivotal/cfapp/domain/EmailNotificationTemplate.java).
 

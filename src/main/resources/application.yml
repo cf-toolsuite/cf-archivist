@@ -3,6 +3,47 @@ cf:
   connectionPoolSize: 250
   connectionTimeout: PT10M
 
+# Set schedule for this task to adhere to
+# @see https://crontab.guru for help, first parameter is seconds
+cron:
+  # each :30 on the hour
+  collection: "0 30 * * * *"
+  # at 5:30am on Mondays weekly
+  execution: "0 30 5 * * MON"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${vcap.services.hooverRegistry.credentials.uri:http://localhost:8761}/eureka/
+
+logging:
+  level:
+    io.r2dbc.h2.H2Connection: ERROR
+
+management:
+  info:
+    build:
+      enabled: true
+    dependencies:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      mode: full
+    java:
+      enabled: true
+    os:
+      enabled: true
+    sbom:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,httptrace,loggers,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+
 spring:
   application:
     name: cf-archivist
@@ -48,46 +89,8 @@ spring:
   sendgrid:
     api-key: replace_me
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${vcap.services.hooverRegistry.credentials.uri:http://localhost:8761}/eureka/
-
-# Set schedule for this task to adhere to
-# @see https://crontab.guru for help, first parameter is seconds
-cron:
-  # each :30 on the hour
-  collection: "0 30 * * * *"
-  # at 5:30am on Mondays weekly
-  execution: "0 30 5 * * MON"
-
-logging:
-  level:
-    io.r2dbc.h2.H2Connection: ERROR
-
-management:
-  info:
-    build:
-      enabled: true
-    dependencies:
-      enabled: true
-    env:
-      enabled: true
-    git:
-      mode: full
-    java:
-      enabled: true
-    os:
-      enabled: true
-    sbom:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: health,info,httptrace,loggers,metrics,prometheus
-  endpoint:
-    health:
-      show-details: always
+vaadin:
+  allowed-packages: com.vaadin,org.vaadin,com.github.appreciated.apexcharts
 
 ---
 spring:
