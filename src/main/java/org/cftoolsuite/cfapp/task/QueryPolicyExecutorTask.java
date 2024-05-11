@@ -6,11 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import org.cftoolsuite.cfapp.domain.Defaults;
 import org.cftoolsuite.cfapp.domain.EmailAttachment;
 import org.cftoolsuite.cfapp.domain.Query;
@@ -18,6 +13,10 @@ import org.cftoolsuite.cfapp.domain.QueryPolicy;
 import org.cftoolsuite.cfapp.event.EmailNotificationEvent;
 import org.cftoolsuite.cfapp.service.PoliciesService;
 import org.cftoolsuite.cfapp.service.QueryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
+
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
 import lombok.extern.slf4j.Slf4j;
@@ -46,9 +45,9 @@ public class QueryPolicyExecutorTask implements PolicyExecutorTask {
     }
 
     @Override
-    public void execute() {
-        log.info("QueryPolicyExecutorTask started");
-        fetchQueryPolicies()
+    public void execute(String id) {
+        log.info("QueryPolicyExecutorTask with id={} started", id);
+        fetchQueryPolicy(id)
         .concatMap(qp -> executeQueries(qp).collectList().map(result -> Tuples.of(qp, result)))
         .collectList()
         .subscribe(
@@ -64,11 +63,10 @@ public class QueryPolicyExecutorTask implements PolicyExecutorTask {
                                 .attachments(buildAttachments(result.getT2()))
                                 )
                         );
-                log.info("QueryPolicyExecutorTask completed");
-                log.info("-- {} query policies executed.", results.size());
+                log.info("QueryPolicyExecutorTask with id={} completed", id);
             },
             error -> {
-                log.error("QueryPolicyExecutorTask terminated with error", error);
+                log.error(String.format("QueryPolicyExecutorTask with id=%s terminated with error", id), error);
             }
         );
     }
@@ -89,16 +87,11 @@ public class QueryPolicyExecutorTask implements PolicyExecutorTask {
                 .flatMap(QueryPolicyExecutorTask::constructCsvOutput);
     }
 
-    protected Flux<QueryPolicy> fetchQueryPolicies() {
+    protected Flux<QueryPolicy> fetchQueryPolicy(String id) {
         return
-                policiesService
-                .findAllQueryPolicies()
+            policiesService
+                .findQueryPolicyById(id)
                 .flatMapMany(policy -> Flux.fromIterable(policy.getQueryPolicies()));
-    }
-
-    @Scheduled(cron = "${cron.execution}")
-    protected void runTask() {
-        execute();
     }
 
     private static List<EmailAttachment> buildAttachments(List<Tuple2<String, String>> tuples) {

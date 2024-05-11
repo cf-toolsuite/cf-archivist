@@ -3,9 +3,17 @@ package org.cftoolsuite.cfapp.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.cftoolsuite.cfapp.config.GitSettings;
 import org.cftoolsuite.cfapp.domain.Policies;
+import org.cftoolsuite.cfapp.domain.QueryPolicy;
 import org.cftoolsuite.cfapp.repository.R2dbcPoliciesRepository;
+import org.cftoolsuite.cfapp.task.PolicyExecutorTask;
+import org.cftoolsuite.cfapp.task.QueryPolicyExecutorTask;
+
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -57,6 +65,24 @@ public class R2dbcPoliciesService implements PoliciesService {
     @Transactional
     public Mono<Policies> save(Policies entity) {
         return repo.save(entity);
+    }
+
+    @Override
+    public Mono<Map<String, Class<? extends PolicyExecutorTask>>> getTaskMap() {
+        Mono<Policies> policiesMono = repo.findAll();
+        Flux<Map<String, Class<? extends PolicyExecutorTask>>> mapsFlux = Flux.merge(
+            policiesMono
+                .flatMapMany(p -> Flux.fromIterable(p.getQueryPolicies()))
+                .collectMap(QueryPolicy::getId, qp -> QueryPolicyExecutorTask.class)
+        );
+        return
+            mapsFlux
+                .reduce(
+                    new HashMap<String, Class<? extends PolicyExecutorTask>>(), (acc, map) -> {
+                        acc.putAll(map);
+                        return acc;
+                    }
+                );
     }
 
 }

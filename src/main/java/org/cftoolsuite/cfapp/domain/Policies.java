@@ -1,5 +1,6 @@
 package org.cftoolsuite.cfapp.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +33,20 @@ public class Policies {
     @JsonIgnore
     public boolean isEmpty() {
         return getQueryPolicies().isEmpty();
+    }
+
+    public List<Policy> all() {
+        List<Policy> policies = new ArrayList<>();
+        policies.addAll(getQueryPolicies());
+        return policies;
+    }
+
+    public Policy getById(String policyId) {
+        return all()
+                .stream()
+                .filter(policy -> policy.getId().equals(policyId))
+                .findFirst()
+                .orElse(null);
     }
 
 }
