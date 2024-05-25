@@ -39,7 +39,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,httptrace,loggers,metrics,prometheus
+        include: health,info,httptrace,loggers,metrics,prometheus,sbom
   endpoint:
     health:
       show-details: always
@@ -88,6 +88,9 @@ spring:
 # SendGrid API key (alternative to username/password).
   sendgrid:
     api-key: replace_me
+  threads:
+    virtual:
+      enabled: true
 
 vaadin:
   allowed-packages: com.vaadin,org.vaadin,com.github.appreciated.apexcharts
@@ -100,6 +103,9 @@ spring:
 
   cloud:
     discovery:
+      enabled: true
+  threads:
+    virtual:
       enabled: true
 
 management:
