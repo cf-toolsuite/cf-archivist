@@ -38,6 +38,10 @@ public class AppDetailReadConverter implements Converter<Row, AppDetail> {
                 .lastEvent(Defaults.getColumnValue(source, "last_event", String.class))
                 .lastEventActor(Defaults.getColumnValue(source, "last_event_actor", String.class))
                 .requestedState(Defaults.getColumnValue(source, "requested_state", String.class))
+                .buildpackReleaseType(Defaults.getColumnValue(source, "buildpack_release_type", String.class))
+                .buildpackReleaseDate(Defaults.getColumnValue(source, "buildpack_release_date", LocalDateTime.class))
+                .buildpackLatestVersion(Defaults.getColumnValue(source, "buildpack_latest_version", String.class))
+                .buildpackLatestUrl(Defaults.getColumnValue(source, "buildpack_latest_url", String.class))
                 .collectionDateTime(Defaults.getColumnValue(source, "collection_time", LocalDateTime.class))
                 .build();
     }
