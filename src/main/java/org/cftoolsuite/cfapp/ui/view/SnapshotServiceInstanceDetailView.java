@@ -3,13 +3,21 @@ package org.cftoolsuite.cfapp.ui.view;
 import static org.cftoolsuite.cfapp.ui.view.SnapshotServiceInstanceDetailView.NAV;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Collection;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
+import org.cftoolsuite.cfapp.domain.ServiceInstanceDetail;
+import org.cftoolsuite.cfapp.repository.MetricCache;
+import org.cftoolsuite.cfapp.ui.MainLayout;
+import org.cftoolsuite.cfapp.ui.component.GridTile;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
@@ -23,14 +31,10 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-
-import org.cftoolsuite.cfapp.domain.ServiceInstanceDetail;
-import org.cftoolsuite.cfapp.repository.MetricCache;
-import org.cftoolsuite.cfapp.ui.MainLayout;
-import org.cftoolsuite.cfapp.ui.component.GridTile;
 
 @Route(value = NAV, layout = MainLayout.class)
 @PageTitle("cf-archivist » Snapshot » Detail » SI")
@@ -200,93 +204,80 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
         return grid;
     }
 
-    public VerticalLayout getLastUpdatedPicker(ListDataProvider<ServiceInstanceDetail> dataProvider) {
-        DatePicker startDatePicker = new DatePicker();
+    private VerticalLayout createDateRangePicker(ListDataProvider<ServiceInstanceDetail> dataProvider,
+                                                 Function<ServiceInstanceDetail, LocalDateTime> dateExtractor,
+                                                 String startLabel,
+                                                 String endLabel) {
+        DatePicker startDatePicker = new DatePicker(startLabel);
         startDatePicker.setPlaceholder("Start");
-        startDatePicker.setSizeFull();
-        DatePicker endDatePicker = new DatePicker();
-        endDatePicker.setPlaceholder("End");
-        endDatePicker.setSizeFull();
+        startDatePicker.setWidthFull();
 
-        startDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
+        DatePicker endDatePicker = new DatePicker(endLabel);
+        endDatePicker.setPlaceholder("End");
+        endDatePicker.setWidthFull();
+
+        ValueChangeListener<ComponentValueChangeEvent<DatePicker, LocalDate>> dateChangeListener = event -> {
+            LocalDate startDate = startDatePicker.getValue();
             LocalDate endDate = endDatePicker.getValue();
-            if (selectedDate != null) {
-                endDatePicker.setMin(selectedDate.plusDays(1));
-                if (endDate == null) {
-                    endDatePicker.setOpened(true);
-                } else {
-                    dataProvider.addFilter(
-                        f -> f.getLastUpdated() == null ? false : (f.getLastUpdated().toLocalDate().isAfter(selectedDate) &&
-                            f.getLastUpdated().toLocalDate().isBefore(endDate)));
-                }
+
+            if (startDate != null) {
+                endDatePicker.setMin(startDate);
             } else {
                 endDatePicker.setMin(null);
             }
-        });
 
-        endDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
-            LocalDate startDate = startDatePicker.getValue();
-            if (selectedDate != null) {
-                startDatePicker.setMax(selectedDate.minusDays(1));
-                if (startDate != null) {
-                    dataProvider.addFilter(
-                        f -> f.getLastUpdated() == null ? false : (f.getLastUpdated().toLocalDate().isBefore(selectedDate) &&
-                            f.getLastUpdated().toLocalDate().isAfter(startDate)));
-                }
+            if (endDate != null) {
+                startDatePicker.setMax(endDate);
             } else {
                 startDatePicker.setMax(null);
             }
-        });
 
-        VerticalLayout layout = new VerticalLayout();
-        layout.add(startDatePicker, endDatePicker);
+            dataProvider.setFilter(createDateRangeFilter(startDate, endDate, dateExtractor));
+        };
+
+        startDatePicker.addValueChangeListener(dateChangeListener);
+        endDatePicker.addValueChangeListener(dateChangeListener);
+
+        VerticalLayout layout = new VerticalLayout(startDatePicker, endDatePicker);
+        layout.setSpacing(true);
+        layout.setPadding(false);
         return layout;
     }
 
+    private SerializablePredicate<ServiceInstanceDetail> createDateRangeFilter(LocalDate startDate, LocalDate endDate,
+                                                                               Function<ServiceInstanceDetail, LocalDateTime> dateExtractor) {
+        if (startDate != null && endDate != null) {
+            return item -> {
+                LocalDateTime itemDateTime = dateExtractor.apply(item);
+                if (itemDateTime == null) return false;
+                LocalDate itemDate = itemDateTime.toLocalDate();
+                return (itemDate.isEqual(startDate) || itemDate.isAfter(startDate)) &&
+                       (itemDate.isEqual(endDate) || itemDate.isBefore(endDate));
+            };
+        } else if (startDate != null) {
+            return item -> {
+                LocalDateTime itemDateTime = dateExtractor.apply(item);
+                if (itemDateTime == null) return false;
+                LocalDate itemDate = itemDateTime.toLocalDate();
+                return itemDate.isEqual(startDate) || itemDate.isAfter(startDate);
+            };
+        } else if (endDate != null) {
+            return item -> {
+                LocalDateTime itemDateTime = dateExtractor.apply(item);
+                if (itemDateTime == null) return false;
+                LocalDate itemDate = itemDateTime.toLocalDate();
+                return itemDate.isEqual(endDate) || itemDate.isBefore(endDate);
+            };
+        } else {
+            return item -> true;
+        }
+    }
+
+    public VerticalLayout getLastUpdatedPicker(ListDataProvider<ServiceInstanceDetail> dataProvider) {
+        return createDateRangePicker(dataProvider, ServiceInstanceDetail::getLastUpdated, "Last Updated Start", "Last Updated End");
+    }
+
     public VerticalLayout getCollectionDateTimePicker(ListDataProvider<ServiceInstanceDetail> dataProvider) {
-        DatePicker startDatePicker = new DatePicker();
-        startDatePicker.setPlaceholder("Start");
-        startDatePicker.setSizeFull();
-        DatePicker endDatePicker = new DatePicker();
-        endDatePicker.setPlaceholder("End");
-        endDatePicker.setSizeFull();
-
-        startDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
-            LocalDate endDate = endDatePicker.getValue();
-            if (selectedDate != null) {
-                endDatePicker.setMin(selectedDate.plusDays(1));
-                if (endDate == null) {
-                    endDatePicker.setOpened(true);
-                } else {
-                    dataProvider.addFilter(
-                        f -> f.getCollectionDateTime() == null ? false : (f.getCollectionDateTime().toLocalDate().isAfter(selectedDate) &&
-                            f.getCollectionDateTime().toLocalDate().isBefore(endDate)));
-                }
-            } else {
-                endDatePicker.setMin(null);
-            }
-        });
-
-        endDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
-            LocalDate startDate = startDatePicker.getValue();
-            if (selectedDate != null) {
-                startDatePicker.setMax(selectedDate.minusDays(1));
-                if (startDate != null) {
-                    dataProvider.addFilter(
-                        f -> f.getCollectionDateTime() == null ? false : (f.getCollectionDateTime().toLocalDate().isBefore(selectedDate) &&
-                            f.getCollectionDateTime().toLocalDate().isAfter(startDate)));
-                }
-            } else {
-                startDatePicker.setMax(null);
-            }
-        });
-
-        VerticalLayout layout = new VerticalLayout();
-        layout.add(startDatePicker, endDatePicker);
-        return layout;
+        return createDateRangePicker(dataProvider, ServiceInstanceDetail::getCollectionDateTime, "Collection Time Start", "Collection Time End");
     }
 }
