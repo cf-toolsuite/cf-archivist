@@ -71,7 +71,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>24.6.6</vaadin.version>
+		<vaadin.version>24.7.0</vaadin.version>
 	</properties>
 
 	<dependencies>
@@ -109,7 +109,7 @@
 		<dependency>
 			<groupId>com.cedarsoftware</groupId>
 			<artifactId>json-io</artifactId>
-			<version>4.40.0</version>
+			<version>4.51.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -129,7 +129,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
-			<version>1.13.0</version>
+			<version>1.14.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -163,7 +163,7 @@
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
-			<version>7.1.0.202411261347-r</version>
+			<version>7.2.0.202503040940-r</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sanctionco.jmail</groupId>
@@ -630,7 +630,7 @@
 			<plugin>
 				<groupId>com.mycila</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>4.6</version>
+				<version>5.0.0</version>
 				<configuration>
 					<properties>
 						<owner>org.cftoolsuite.cfapp.cf-archivist</owner>
@@ -661,7 +661,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.9.2.0</version>
+				<version>4.9.3.0</version>
 				<configuration>
 					<xmlOutput>true</xmlOutput>
 				</configuration>
@@ -906,7 +906,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.9.2.0</version>
+				<version>4.9.3.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
