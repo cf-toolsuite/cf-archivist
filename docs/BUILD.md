@@ -3,7 +3,7 @@
 ## How to Build
 
 ```
-./mvnw --batch-mode --update-snapshots -DskipTests -P production verify
+./mvnw --batch-mode --update-snapshots -P production verify
 ```
 
 ### Alternatives
@@ -20,24 +20,24 @@ The below represent a collection of Maven profiles available in the Maven POM.
   * uses [Spring AOT](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#spring-aot-maven) to compile a native executable with [GraalVM](https://www.graalvm.org/docs/introduction/)
 
 ```
-./mvnw --batch-mode --update-snapshots -DskipTests -P production verify -Drdbms=mysql
+./mvnw --batch-mode --update-snapshots -P production verify -Drdbms=mysql
 ```
 > Work with MySQL backend
 
 ```
-./mvnw --batch-mode --update-snapshots -DskipTests -P production verify -Drdbms=postgres
+./mvnw --batch-mode --update-snapshots -P production verify -Drdbms=postgres
 ```
 > Work with Postgres backend
 
 ```
-./mvnw --batch-mode --update-snapshots -DskipTests -P production verify -Plog4j2
+./mvnw --batch-mode --update-snapshots -P production verify -Plog4j2
 ```
 > Swap out default "lossy" logging provider
 
 ``
 # Using Cloud Native Buildpacks image
-./mvnw spring-boot:build-image -Pnative --batch-mode --update-snapshots -DskipTests -Pproduction
+./mvnw spring-boot:build-image -Pnative --batch-mode --update-snapshots -Pproduction
 
 # Using pre-installed Graal CE
-./mvnw native:compile --batch-mode --update-snapshots -DskipTests -Pproduction -Pnative
+./mvnw native:compile --batch-mode --update-snapshots -Pproduction -Pnative
 ```
