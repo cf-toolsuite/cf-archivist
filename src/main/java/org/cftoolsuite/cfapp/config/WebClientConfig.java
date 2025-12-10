@@ -25,7 +25,7 @@ public class WebClientConfig {
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="true")
     public WebClient insecureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction,
-        @Value("${spring.codec.max-in-memory-size}") Integer maxInMemorySize) throws SSLException {
+        @Value("${spring.http.codecs.max-in-memory-size}") Integer maxInMemorySize) throws SSLException {
     	SslContext context = SslContextBuilder.forClient()
     		    .trustManager(InsecureTrustManagerFactory.INSTANCE)
     		    .build();
@@ -52,7 +52,7 @@ public class WebClientConfig {
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="false", matchIfMissing=true)
     public WebClient secureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction,
-        @Value("${spring.codec.max-in-memory-size}") Integer maxInMemorySize) throws SSLException {
+        @Value("${spring.http.codecs.max-in-memory-size}") Integer maxInMemorySize) throws SSLException {
         return
             builder
                 .filter(lbFunction)
