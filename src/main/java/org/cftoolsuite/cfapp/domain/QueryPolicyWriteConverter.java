@@ -9,8 +9,8 @@ import org.springframework.r2dbc.core.Parameter;
 import org.springframework.stereotype.Indexed;
 import org.springframework.util.CollectionUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Indexed
 @WritingConverter
@@ -32,16 +32,16 @@ public class QueryPolicyWriteConverter implements Converter<QueryPolicy, Outboun
     private String writeEmailNotificationTemplate(EmailNotificationTemplate value) {
         try {
             return mapper.writeValueAsString(value);
-        } catch (JsonProcessingException jpe) {
-            throw new RuntimeException("Problem writing email notification template", jpe);
+        } catch (JacksonException je) {
+            throw new RuntimeException("Problem writing email notification template", je);
         }
     }
 
     private String writeQueries(Set<Query> value) {
         try {
             return mapper.writeValueAsString(value);
-        } catch (JsonProcessingException jpe) {
-            throw new RuntimeException("Problem writing queries", jpe);
+        } catch (JacksonException je) {
+            throw new RuntimeException("Problem writing queries", je);
         }
     }
 }

@@ -2,9 +2,8 @@ package org.cftoolsuite.cfapp.event;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationEvent;
-
 import org.cftoolsuite.cfapp.domain.Space;
+import org.springframework.context.ApplicationEvent;
 
 public class SpacesRetrievedEvent extends ApplicationEvent {
 

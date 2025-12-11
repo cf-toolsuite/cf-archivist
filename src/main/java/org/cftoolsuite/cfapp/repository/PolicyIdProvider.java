@@ -1,12 +1,11 @@
 package org.cftoolsuite.cfapp.repository;
 
-import org.eclipse.jgit.lib.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.cftoolsuite.cfapp.client.GitClient;
 import org.cftoolsuite.cfapp.config.GitSettings;
 import org.cftoolsuite.cfapp.domain.QueryPolicy;
+import org.eclipse.jgit.lib.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PolicyIdProvider {

@@ -1,5 +1,6 @@
 package org.cftoolsuite.cfapp.controller;
 
+import org.cftoolsuite.cfapp.event.DatabaseCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationEventPublisher;
@@ -7,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.cftoolsuite.cfapp.event.DatabaseCreatedEvent;
 import reactor.core.publisher.Mono;
 
 @RestController

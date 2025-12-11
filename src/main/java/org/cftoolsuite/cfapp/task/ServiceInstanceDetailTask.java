@@ -2,15 +2,15 @@ package org.cftoolsuite.cfapp.task;
 
 import java.util.List;
 
+import org.cftoolsuite.cfapp.domain.ServiceInstanceDetail;
+import org.cftoolsuite.cfapp.event.ServiceInstanceDetailRetrievedEvent;
+import org.cftoolsuite.cfapp.event.SnapshotDetailRetrievedEvent;
+import org.cftoolsuite.cfapp.service.ServiceInstanceDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import org.cftoolsuite.cfapp.domain.ServiceInstanceDetail;
-import org.cftoolsuite.cfapp.event.ServiceInstanceDetailRetrievedEvent;
-import org.cftoolsuite.cfapp.event.SnapshotDetailRetrievedEvent;
-import org.cftoolsuite.cfapp.service.ServiceInstanceDetailService;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 

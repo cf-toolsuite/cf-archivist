@@ -8,5 +8,5 @@ applications:
   env:
     JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
     SPRING_PROFILES_ACTIVE: cloud,on-demand
-    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 25.+ } }'
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'

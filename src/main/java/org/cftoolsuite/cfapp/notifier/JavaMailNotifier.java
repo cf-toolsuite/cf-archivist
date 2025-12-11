@@ -8,11 +8,11 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.util.ByteArrayDataSource;
 
+import org.cftoolsuite.cfapp.domain.EmailAttachment;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
-import org.cftoolsuite.cfapp.domain.EmailAttachment;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

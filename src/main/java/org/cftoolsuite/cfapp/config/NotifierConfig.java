@@ -1,5 +1,8 @@
 package org.cftoolsuite.cfapp.config;
 
+import org.cftoolsuite.cfapp.notifier.EmailNotifier;
+import org.cftoolsuite.cfapp.notifier.JavaMailNotifier;
+import org.cftoolsuite.cfapp.notifier.SendGridNotifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.mail.autoconfigure.MailSenderAutoConfiguration;
@@ -9,10 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import com.sendgrid.SendGrid;
-
-import org.cftoolsuite.cfapp.notifier.EmailNotifier;
-import org.cftoolsuite.cfapp.notifier.JavaMailNotifier;
-import org.cftoolsuite.cfapp.notifier.SendGridNotifier;
 
 @Configuration
 public class NotifierConfig {

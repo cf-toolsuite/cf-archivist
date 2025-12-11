@@ -2,17 +2,17 @@ package org.cftoolsuite.cfapp.task;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationListener;
-import org.springframework.stereotype.Component;
-
 import org.cftoolsuite.cfapp.client.ArchivistClient;
 import org.cftoolsuite.cfapp.domain.TimeKeeper;
 import org.cftoolsuite.cfapp.domain.TimeKeeperUtil;
 import org.cftoolsuite.cfapp.event.SpacesRetrievedEvent;
 import org.cftoolsuite.cfapp.event.TimeKeepersRetrievedEvent;
 import org.cftoolsuite.cfapp.service.SpaceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
+
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 

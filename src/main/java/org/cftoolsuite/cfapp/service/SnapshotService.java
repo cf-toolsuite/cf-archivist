@@ -1,9 +1,9 @@
 package org.cftoolsuite.cfapp.service;
 
+import org.cftoolsuite.cfapp.domain.SnapshotDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.cftoolsuite.cfapp.domain.SnapshotDetail;
 import reactor.core.publisher.Mono;
 
 @Service

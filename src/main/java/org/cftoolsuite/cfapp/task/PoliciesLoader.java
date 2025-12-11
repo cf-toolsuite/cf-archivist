@@ -4,14 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.lib.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.ApplicationListener;
-import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.cftoolsuite.cfapp.client.GitClient;
 import org.cftoolsuite.cfapp.config.GitSettings;
 import org.cftoolsuite.cfapp.domain.Policies;
@@ -19,7 +11,14 @@ import org.cftoolsuite.cfapp.domain.PoliciesValidator;
 import org.cftoolsuite.cfapp.domain.QueryPolicy;
 import org.cftoolsuite.cfapp.event.DatabaseCreatedEvent;
 import org.cftoolsuite.cfapp.service.PoliciesService;
+import org.eclipse.jgit.lib.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
+
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Component

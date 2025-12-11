@@ -3,9 +3,8 @@ package org.cftoolsuite.cfapp.event;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.ApplicationEvent;
-
 import org.cftoolsuite.cfapp.domain.EmailAttachment;
+import org.springframework.context.ApplicationEvent;
 
 public class EmailNotificationEvent extends ApplicationEvent {
 

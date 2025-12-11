@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
+import org.cftoolsuite.cfapp.domain.EmailAttachment;
 import org.springframework.http.HttpStatus;
 
 import com.sendgrid.Method;
@@ -16,7 +17,6 @@ import com.sendgrid.helpers.mail.objects.Attachments;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
-import org.cftoolsuite.cfapp.domain.EmailAttachment;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

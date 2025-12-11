@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
+import org.cftoolsuite.cfapp.domain.CustomConverters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.r2dbc.autoconfigure.R2dbcProperties;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 import org.springframework.util.StringUtils;
 
-import org.cftoolsuite.cfapp.domain.CustomConverters;
 import io.pivotal.cfenv.jdbc.CfJdbcEnv;
 import io.pivotal.cfenv.jdbc.CfJdbcService;
 import io.r2dbc.spi.ConnectionFactories;

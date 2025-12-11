@@ -2,16 +2,16 @@ package org.cftoolsuite.cfapp.task;
 
 import java.util.stream.Collectors;
 
+import org.cftoolsuite.cfapp.client.ArchivistClient;
+import org.cftoolsuite.cfapp.event.DatabaseCreatedEvent;
+import org.cftoolsuite.cfapp.event.TimeKeepersRetrievedEvent;
+import org.cftoolsuite.cfapp.service.TimeKeeperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import org.cftoolsuite.cfapp.client.ArchivistClient;
-import org.cftoolsuite.cfapp.event.DatabaseCreatedEvent;
-import org.cftoolsuite.cfapp.event.TimeKeepersRetrievedEvent;
-import org.cftoolsuite.cfapp.service.TimeKeeperService;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 

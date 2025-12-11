@@ -10,6 +10,13 @@ import java.time.format.FormatStyle;
 import java.util.Collection;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.StringUtils;
+import org.cftoolsuite.cfapp.domain.AppDetail;
+import org.cftoolsuite.cfapp.repository.MetricCache;
+import org.cftoolsuite.cfapp.ui.MainLayout;
+import org.cftoolsuite.cfapp.ui.component.GridTile;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -30,14 +37,6 @@ import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.cftoolsuite.cfapp.domain.AppDetail;
-import org.cftoolsuite.cfapp.repository.MetricCache;
-import org.cftoolsuite.cfapp.ui.MainLayout;
-import org.cftoolsuite.cfapp.ui.component.GridTile;
 
 @Route(value = NAV, layout = MainLayout.class)
 @PageTitle("cf-archivist » Snapshot » Detail » AI")

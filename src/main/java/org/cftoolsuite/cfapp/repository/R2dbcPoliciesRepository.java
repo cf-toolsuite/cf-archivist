@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.cftoolsuite.cfapp.domain.Policies;
+import org.cftoolsuite.cfapp.domain.QueryPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
-import org.cftoolsuite.cfapp.domain.Policies;
-import org.cftoolsuite.cfapp.domain.QueryPolicy;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

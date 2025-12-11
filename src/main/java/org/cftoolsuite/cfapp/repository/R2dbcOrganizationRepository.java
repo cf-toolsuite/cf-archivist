@@ -1,5 +1,6 @@
 package org.cftoolsuite.cfapp.repository;
 
+import org.cftoolsuite.cfapp.domain.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -7,7 +8,6 @@ import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.data.relational.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import org.cftoolsuite.cfapp.domain.Organization;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

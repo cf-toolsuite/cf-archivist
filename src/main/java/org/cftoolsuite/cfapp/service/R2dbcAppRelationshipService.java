@@ -1,11 +1,11 @@
 package org.cftoolsuite.cfapp.service;
 
+import org.cftoolsuite.cfapp.domain.AppRelationship;
+import org.cftoolsuite.cfapp.repository.R2dbcAppRelationshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.cftoolsuite.cfapp.domain.AppRelationship;
-import org.cftoolsuite.cfapp.repository.R2dbcAppRelationshipRepository;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

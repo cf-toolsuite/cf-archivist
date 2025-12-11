@@ -3,8 +3,8 @@ package org.cftoolsuite.cfapp.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.cftoolsuite.cfapp.util.CsvUtil;
+
 import io.r2dbc.spi.Row;
 
 public class Defaults {

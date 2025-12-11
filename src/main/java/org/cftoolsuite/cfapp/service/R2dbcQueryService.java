@@ -1,11 +1,11 @@
 package org.cftoolsuite.cfapp.service;
 
+import org.cftoolsuite.cfapp.domain.Query;
+import org.cftoolsuite.cfapp.repository.R2dbcQueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.cftoolsuite.cfapp.domain.Query;
-import org.cftoolsuite.cfapp.repository.R2dbcQueryRepository;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
 import lombok.extern.slf4j.Slf4j;

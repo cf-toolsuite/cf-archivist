@@ -1,8 +1,5 @@
 package org.cftoolsuite.cfapp.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +9,8 @@ import org.cftoolsuite.cfapp.domain.QueryPolicy;
 import org.cftoolsuite.cfapp.repository.R2dbcPoliciesRepository;
 import org.cftoolsuite.cfapp.task.PolicyExecutorTask;
 import org.cftoolsuite.cfapp.task.QueryPolicyExecutorTask;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

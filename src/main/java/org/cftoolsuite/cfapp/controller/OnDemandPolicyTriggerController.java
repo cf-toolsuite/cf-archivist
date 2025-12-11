@@ -1,17 +1,14 @@
 package org.cftoolsuite.cfapp.controller;
 
-import java.util.Collection;
-import java.util.Map;
 
+import org.cftoolsuite.cfapp.service.PoliciesService;
+import org.cftoolsuite.cfapp.task.PolicyExecutorTask;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.cftoolsuite.cfapp.service.PoliciesService;
-import org.cftoolsuite.cfapp.task.PolicyExecutorTask;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

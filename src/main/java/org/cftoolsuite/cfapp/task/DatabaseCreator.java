@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.cftoolsuite.cfapp.config.DbmsSettings;
+import org.cftoolsuite.cfapp.event.DatabaseCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -14,8 +16,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.stereotype.Component;
 
-import org.cftoolsuite.cfapp.config.DbmsSettings;
-import org.cftoolsuite.cfapp.event.DatabaseCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

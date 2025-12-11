@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.cftoolsuite.cfapp.domain.EmailAttachment;
+import org.cftoolsuite.cfapp.event.EmailNotificationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.ClassPathResource;
 
-import org.cftoolsuite.cfapp.domain.EmailAttachment;
-import org.cftoolsuite.cfapp.event.EmailNotificationEvent;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

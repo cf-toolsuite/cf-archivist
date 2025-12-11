@@ -1,10 +1,10 @@
 package org.cftoolsuite.cfapp.repository;
 
+import org.cftoolsuite.cfapp.domain.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations;
 import org.springframework.stereotype.Repository;
 
-import org.cftoolsuite.cfapp.domain.Query;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
 import reactor.core.publisher.Flux;

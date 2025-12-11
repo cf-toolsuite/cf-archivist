@@ -2,9 +2,8 @@ package org.cftoolsuite.cfapp.event;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationEvent;
-
 import org.cftoolsuite.cfapp.domain.AppDetail;
+import org.springframework.context.ApplicationEvent;
 
 public class AppDetailRetrievedEvent extends ApplicationEvent {
 

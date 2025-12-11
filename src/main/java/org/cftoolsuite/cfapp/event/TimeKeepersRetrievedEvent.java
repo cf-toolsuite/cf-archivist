@@ -2,9 +2,8 @@ package org.cftoolsuite.cfapp.event;
 
 import java.util.Set;
 
-import org.springframework.context.ApplicationEvent;
-
 import org.cftoolsuite.cfapp.domain.TimeKeeper;
+import org.springframework.context.ApplicationEvent;
 
 public class TimeKeepersRetrievedEvent extends ApplicationEvent {
 

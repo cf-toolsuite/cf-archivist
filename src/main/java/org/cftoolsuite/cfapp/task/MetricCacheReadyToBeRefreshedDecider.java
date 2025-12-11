@@ -3,9 +3,6 @@ package org.cftoolsuite.cfapp.task;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.springframework.context.ApplicationEvent;
-import org.springframework.stereotype.Component;
-
 import org.cftoolsuite.cfapp.event.AppDetailRetrievedEvent;
 import org.cftoolsuite.cfapp.event.AppRelationshipRetrievedEvent;
 import org.cftoolsuite.cfapp.event.OrganizationsRetrievedEvent;
@@ -13,6 +10,8 @@ import org.cftoolsuite.cfapp.event.ServiceInstanceDetailRetrievedEvent;
 import org.cftoolsuite.cfapp.event.SpaceUsersRetrievedEvent;
 import org.cftoolsuite.cfapp.event.SpacesRetrievedEvent;
 import org.cftoolsuite.cfapp.event.TimeKeepersRetrievedEvent;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.stereotype.Component;
 
 @Component
 public class MetricCacheReadyToBeRefreshedDecider {

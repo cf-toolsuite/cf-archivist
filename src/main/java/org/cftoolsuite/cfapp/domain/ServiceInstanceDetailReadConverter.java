@@ -36,4 +36,3 @@ public class ServiceInstanceDetailReadConverter implements Converter<Row, Servic
                 .build();
     }
 }
-
