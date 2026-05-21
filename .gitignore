@@ -49,3 +49,11 @@ vaadin.ts
 frontend/
 vite.*
 *.bundle
+
+## AI tooling
+.claude/
+.claude-flow/
+.swarm/
+.mcp.json
+CLAUDE.md
+ruvector.db
