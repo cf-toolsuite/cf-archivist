@@ -46,6 +46,14 @@ pnpm*
 node_modules/
 vaadin.ts
 .npmrc
-frontend/
+src/main/frontend/generated/
 vite.*
 *.bundle
+
+## AI tooling
+.claude/
+.claude-flow/
+.swarm/
+.mcp.json
+CLAUDE.md
+ruvector.db
