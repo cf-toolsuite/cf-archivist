@@ -32,7 +32,7 @@ public class MainLayout extends AppLayout {
     	Tab sidTab = createTab(VaadinIcon.TABLE.create(), "Service Instance", SnapshotServiceInstanceDetailView.class);
 
     	snapshotDetailTabs.add(sadTab, sidTab);
-    	accordion.add("Snapshot Detail", snapshotDetailTabs).addThemeVariants(DetailsVariant.REVERSE);
+    	accordion.add("Snapshot Detail", snapshotDetailTabs).addThemeVariants(DetailsVariant.LUMO_REVERSE);
 
     	addToNavbar(true, homeTab, new DrawerToggle());
     	addToDrawer(accordion);

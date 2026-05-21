@@ -46,7 +46,7 @@ pnpm*
 node_modules/
 vaadin.ts
 .npmrc
-frontend/
+src/main/frontend/generated/
 vite.*
 *.bundle
 
