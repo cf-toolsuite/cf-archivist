@@ -73,6 +73,8 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<maven.compiler.proc>full</maven.compiler.proc>
 		<vaadin.version>25.1.5</vaadin.version>
+		<netty.version>4.2.13.Final</netty.version>
+		<tomcat.version>11.0.22</tomcat.version>
 	</properties>
 
 	<dependencies>
@@ -294,6 +296,12 @@
 				<version>${vaadin.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<!-- CVE remediation: force safe Guava version (14.0.1 via eureka-client chain has multiple CVEs) -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>32.0.0-jre</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
