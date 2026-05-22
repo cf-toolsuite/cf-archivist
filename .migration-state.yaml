@@ -1,0 +1,18 @@
+migrationId: sb4-20260522-d9iv3jsw
+branch: chore/liberica-java-25-upgrade
+startedAt: '2026-05-22T16:42:29Z'
+lastUpdatedAt: '2026-05-22T16:42:41Z'
+marketplaceVersion: 1.0.0
+targetVersions:
+  java: '25'
+  maven-wrapper: 3.9.16
+appliedTransformations:
+- skill: build-tool-upgrader
+  version: 1.0.0
+  transformations:
+  - maven-wrapper-upgrade
+  completedAt: '2026-05-22T16:42:41Z'
+  commitSha: eda354e1740214499d72ed2cb55e0873b405607a
+pendingTransformations: []
+validationStatus: NOT_RUN
+validationDetails: {}
